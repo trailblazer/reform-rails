@@ -1,8 +1,8 @@
 # Reform::Rails
 
-Loads Rails-specific Reform files and includes modules like `Form::ActiveModel` automatically.
+Loads Rails-specific Reform files and includes modules like `Reform::Form::ActiveModel` automatically.
 
-Don't use this gem if you don't want to use the standard Reform/Rails stack.
+Simply don't include this gem if you don't want to use the standard Reform/Rails stack, for example because you're in a Lotus environment or you intend to use Veto validations.
 
 ## Installation
 
