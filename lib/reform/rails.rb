@@ -1,5 +1,6 @@
 require "reform/rails/version"
 
+require "reform"
 require "reform/form/active_model"
 require "reform/form/active_model/validations"
 

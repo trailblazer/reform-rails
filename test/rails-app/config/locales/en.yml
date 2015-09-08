@@ -1,0 +1,11 @@
+---
+en:
+  # custom validation error messages
+
+  activemodel:
+    errors:
+      models:
+        song:
+          attributes:
+            title:
+              custom_error_message: Custom Error Message
