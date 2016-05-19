@@ -1,0 +1,5 @@
+class <%= class_name %>Form < Reform::Form
+<% properties.each do |property| -%>
+  property :<%= property %>
+<% end -%>
+end
