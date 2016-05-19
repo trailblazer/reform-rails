@@ -21,6 +21,9 @@ Dummy::Application.configure do
   config.action_controller.allow_forgery_protection    = false
   config.secret_key_base = "yo"
 
+  config.eager_load = 'false'
+  config.active_support.test_order = :random
+
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
