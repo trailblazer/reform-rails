@@ -14,3 +14,9 @@ Reform::Form.class_eval do
   include Reform::Form::Mongoid if defined?(Mongoid)
   include Reform::Form::ActiveModel::Validations
 end
+
+module Reform
+  def self.rails3_0?
+    ::ActiveModel::VERSION::MAJOR == 3 and ::ActiveModel::VERSION::MINOR == 0
+  end
+end
