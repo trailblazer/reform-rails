@@ -3,6 +3,8 @@ require "reform/rails/version"
 require "reform"
 require "reform/form/active_model"
 require "reform/form/active_model/validations"
+require "reform/form/multi_parameter_attributes"
+
 
 require "reform/active_record" if defined?(ActiveRecord)
 require "reform/mongoid" if defined?(Mongoid)
