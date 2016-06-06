@@ -104,7 +104,7 @@ class FormBuilderCompatTest < BaseTest
       it "creates a datetime" do
         form.validate(form_attributes)
 
-        form.songs.first.release_date.must_equal Time.new(1997, 9, 27, 10, 11)
+        form.songs.first.release_date.must_equal DateTime.new(1997, 9, 27, 10, 11)
       end
     end
 
