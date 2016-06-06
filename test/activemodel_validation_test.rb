@@ -1,5 +1,4 @@
 require "test_helper"
-require "reform/form/lotus"
 
 class ActiveModelValidationTest < MiniTest::Spec
   Session = Struct.new(:username, :email, :password, :confirm_password)

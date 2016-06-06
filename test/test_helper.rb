@@ -1,4 +1,3 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'reform/rails'
 
 require 'minitest/autorun'
@@ -47,3 +46,26 @@ end
 
 I18n.load_path << Dir['test/dummy/config/locales/*.yml']
 I18n.backend.load_translations
+
+class BaseTest < MiniTest::Spec
+  class AlbumForm < Reform::Form
+    property :title
+
+    property :hit do
+      property :title
+    end
+
+    collection :songs do
+      property :title
+    end
+  end
+
+  Song   = Struct.new(:title, :length)
+  Album  = Struct.new(:title, :hit, :songs, :band)
+  Band   = Struct.new(:label)
+  Label  = Struct.new(:name)
+  Length = Struct.new(:minutes, :seconds)
+
+
+  let (:hit) { Song.new("Roxanne") }
+end

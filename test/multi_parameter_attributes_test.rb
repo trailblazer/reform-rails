@@ -1,6 +1,10 @@
 require 'test_helper'
 
-class ReformTest < ReformSpec
+class ReformTest < Minitest::Spec
+  let (:duran)  { Struct.new(:name).new("Duran Duran") }
+  let (:rio)    { Struct.new(:title).new("Rio") }
+
+
   describe "Date" do
     Person = Struct.new(:date_of_birth)
     let (:form) { DateOfBirthForm.new(Person.new) }
