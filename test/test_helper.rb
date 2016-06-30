@@ -1,8 +1,7 @@
-require 'reform/rails'
-
 require 'minitest/autorun'
 
 require "rails-app/config/environment"
+require 'reform/rails'
 
 require "reform/form/active_model/validations"
 Reform::Contract.class_eval do
