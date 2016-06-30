@@ -1,21 +1,5 @@
 require "reform/rails/version"
-
-require "reform"
-require "reform/form/active_model"
-require "reform/form/active_model/validations"
-require "reform/form/multi_parameter_attributes"
-
-
-require "reform/active_record" if defined?(ActiveRecord)
-require "reform/mongoid" if defined?(Mongoid)
-
-Reform::Form.class_eval do
-  include Reform::Form::ActiveModel
-  include Reform::Form::ActiveModel::FormBuilderMethods
-  include Reform::Form::ActiveRecord if defined?(ActiveRecord)
-  include Reform::Form::Mongoid if defined?(Mongoid)
-  include Reform::Form::ActiveModel::Validations
-end
+require "reform/rails/railtie"
 
 module Reform
   def self.rails3_0?
