@@ -3,7 +3,7 @@ module Reform
     class Railtie < ::Rails::Railtie
       config.reform = ActiveSupport::OrderedOptions.new
 
-      initializer "reform.form_extensions", before: :load_config_initializers do
+      initializer "reform.form_extensions", after: :load_config_initializers do
         validations = config.reform.validations || :active_model
 
         if validations == :active_model
