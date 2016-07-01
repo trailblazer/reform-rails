@@ -12,6 +12,10 @@ Loads Rails-specific Reform files and includes modules like `Reform::Form::Activ
 
 Simply don't include this gem if you don't want to use the conventional Reform/Rails stack. For example in a Hanami environment or when using dry-validations, refrain from using this gem.
 
+## Documentation
+
+The [full documentation](http://trailblazer.to/gems/reform/#reform-rails) can be found on the Trailblazer page.
+
 ## Installation
 
 Add this line to your application's Gemfile:
