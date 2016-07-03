@@ -1,3 +1,7 @@
+# 0.1.4
+
+* Allow setting `config.reform` in initializers, too.
+
 # 0.1.3
 
 * Introduce a railtie to load either `ActiveModel::Validations` *or* `Dry::Validations`. This can be controller via `config.reform.validations = :dry`.
