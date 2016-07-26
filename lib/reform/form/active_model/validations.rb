@@ -44,7 +44,7 @@ module Reform::Form::ActiveModel
     end
 
     class Group
-      def initialize
+      def initialize(_options={})
         @validations = Class.new(Reform::Form::ActiveModel::Validations::Validator)
       end
 
@@ -60,7 +60,6 @@ module Reform::Form::ActiveModel
         end
       end
     end
-
 
     # Validator is the validatable object. On the class level, we define validations,
     # on instance, it exposes #valid?.
