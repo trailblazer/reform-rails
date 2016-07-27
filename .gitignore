@@ -9,3 +9,5 @@
 /tmp/
 *.gem
 test/dummy/log/*.log
+
+database.sqlite3
