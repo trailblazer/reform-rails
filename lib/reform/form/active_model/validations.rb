@@ -44,7 +44,7 @@ module Reform::Form::ActiveModel
     end
 
     class Group
-      def initialize(**)
+      def initialize(*)
         @validations = Class.new(Reform::Form::ActiveModel::Validations::Validator)
       end
 
