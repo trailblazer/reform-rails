@@ -1,3 +1,7 @@
+# 0.1.5
+
+* Allow using Reform-Rails without Rails (it used to crash when not loading `rails.rb`).
+
 # 0.1.4
 
 * Allow setting `config.reform` in initializers, too.
