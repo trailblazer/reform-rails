@@ -44,14 +44,14 @@ module Reform::Form::ActiveModel
     end
 
     class Group
-      def initialize
+      def initialize(*)
         @validations = Class.new(Reform::Form::ActiveModel::Validations::Validator)
       end
 
       extend Uber::Delegates
       delegates :@validations, :validates, :validate, :validates_with, :validate_with
 
-      def call(fields, errors, form) # FIXME.
+      def call(form, errors) # FIXME.
         validator = @validations.new(form)
         validator.valid?
 
@@ -60,7 +60,6 @@ module Reform::Form::ActiveModel
         end
       end
     end
-
 
     # Validator is the validatable object. On the class level, we define validations,
     # on instance, it exposes #valid?.

@@ -40,6 +40,18 @@ module Reform::Form::ActiveModel
       end
     end
 
+    # moved from reform as not applicable to dry
+    def validates(*args, &block)
+      validation(:default, inherit: true) { validates *args, &block }
+    end
+
+    def validate(*args, &block)
+      validation(:default, inherit: true) { validate *args, &block }
+    end
+
+    def validates_with(*args, &block)
+      validation(:default, inherit: true) { validates_with *args, &block }
+    end
 
     # Set a model name for this form if the infered is wrong.
     #
@@ -73,7 +85,7 @@ module Reform::Form::ActiveModel
 
   private
     def active_model_name_for(string, namespace=nil)
-      return ::ActiveModel::Name.new(OpenStruct.new(:name => string)) if Reform.rails3_0?
+      return ::ActiveModel::Name.new(OpenStruct.new(:name => string)) if ::ActiveModel::VERSION::MAJOR == 3 and ::ActiveModel::VERSION::MINOR == 0 # TODO: remove when we drop rails 3.x.
       ::ActiveModel::Name.new(self, namespace, string)
     end
   end # ClassMethods
