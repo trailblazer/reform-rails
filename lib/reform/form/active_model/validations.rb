@@ -1,4 +1,5 @@
 require "active_model"
+require "reform/form/active_model"
 require "uber/delegates"
 
 module Reform::Form::ActiveModel
