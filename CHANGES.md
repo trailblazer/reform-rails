@@ -1,3 +1,7 @@
+# 0.1.6
+
+* Fix a bug where requiring `form/active_model/validations` in a non-Rails environment wouldn't load all necessary files.
+
 # 0.1.5
 
 * Allow using Reform-Rails without Rails (it used to crash when not loading `rails.rb`).
