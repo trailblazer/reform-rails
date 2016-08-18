@@ -13,7 +13,7 @@ task :default => :test
 namespace :test do
   desc 'Test against all supported Rails versions'
   task :all do
-    %w(3.2 4.0 4.1 4.2).each do |version|
+    %w(3.2 4.0 4.1 4.2 5.0).each do |version|
       `BUNDLE_GEMFILE='gemfiles/Gemfile.rails-#{version}' bundle install --quiet`
       `BUNDLE_GEMFILE='gemfiles/Gemfile.rails-#{version}' bundle exec rake test`
     end
