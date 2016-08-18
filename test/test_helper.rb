@@ -26,7 +26,7 @@ end
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
-  :database => "#{Dir.pwd}/database.sqlite3"
+  :database => "#{Dir.pwd}/test/db/database.sqlite3"
 )
 
 Minitest::Spec.class_eval do

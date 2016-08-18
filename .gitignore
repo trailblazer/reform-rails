@@ -9,3 +9,4 @@
 /tmp/
 *.gem
 test/rails-app/log/*
+test/db/*.sqlite3
