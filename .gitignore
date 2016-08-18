@@ -8,4 +8,4 @@
 /spec/reports/
 /tmp/
 *.gem
-test/dummy/log/*.log
+test/rails-app/log/*
