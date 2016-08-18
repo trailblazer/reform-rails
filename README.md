@@ -3,7 +3,7 @@
 [![Gitter Chat](https://badges.gitter.im/trailblazer/chat.svg)](https://gitter.im/trailblazer/chat)
 [![TRB Newsletter](https://img.shields.io/badge/TRB-newsletter-lightgrey.svg)](http://trailblazer.to/newsletter/)
 [![Build
-Status](https://travis-ci.org/apotonick/reform-rails.svg)](https://travis-ci.org/apotonick/reform-rails)
+Status](https://travis-ci.org/trailblazer/reform-rails.svg)](https://travis-ci.org/trailblazer/reform-rails)
 [![Gem Version](https://badge.fury.io/rb/reform-rails.svg)](http://badge.fury.io/rb/reform-rails)
 
 _Rails-support for Reform_.
@@ -25,6 +25,14 @@ gem 'reform-rails'
 ```
 
 Reform-rails needs Reform >= 2.2.
+
+## Developing
+
+To work on `reform-rails` locally, follow these steps:
+
+ 1. Run `bundle install`, this will install all the development
+    dependencies
+ 2. Run `bundle exec rake test:all` to run tests against all supported versions of Rails.
 
 ## License
 
