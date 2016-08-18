@@ -26,6 +26,14 @@ gem 'reform-rails'
 
 Reform-rails needs Reform >= 2.2.
 
+## Developing
+
+To work on `reform-rails` locally, follow these steps:
+
+ 1. Run `bundle install`, this will install all the development
+    dependencies
+ 2. Run `bundle exec rake test:all` to run tests against all supported versions of Rails.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
