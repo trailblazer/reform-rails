@@ -95,6 +95,12 @@ module Reform::Form::ActiveModel
         self.class.model_name = form.model_name # one of the many reasons why i will drop support for AM::V in 2.1. or maybe a bit later.
       end
 
+      # FIXME: for some weird reason, Object#format is reserved and form.send(:format) crashes with ArgumentError: too few arguments.
+      # method_missing fix doesn't work with ruby 2.3 & 2.0
+      def format
+        __getobj__.format
+      end
+
       def method_missing(m, *args, &block)
         __getobj__.send(m, *args, &block) # send all methods to the form, even privates.
       end
