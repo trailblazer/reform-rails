@@ -96,10 +96,12 @@ module Reform::Form::ActiveModel
       end
 
       # FIXME: for some weird reason, Object#format is reserved and form.send(:format) crashes with ArgumentError: too few arguments.
-      # method_missing fix doesn't work with ruby 2.3 & 2.0
-      def format
-        __getobj__.format
-      end
+      # method_missing fix doesn't work with ruby 2.0 or 2.3
+
+      # this fixes 2.0 but I'm guessing that their are more methods than just format to consider
+      # def format
+      #   __getobj__.format
+      # end
 
       def method_missing(m, *args, &block)
         __getobj__.send(m, *args, &block) # send all methods to the form, even privates.
