@@ -2,6 +2,7 @@ language: ruby
 cache: bundler
 
 rvm:
+  - 2.3.1
   - 2.2.3
   - 2.0.0
 services:
@@ -11,7 +12,7 @@ gemfile:
   - gemfiles/Gemfile.rails-4.1
   - gemfiles/Gemfile.rails-4.0
   - gemfiles/Gemfile.rails-3.2
-  - gemfiles/Gemfile.rails-3.1
+  # - gemfiles/Gemfile.rails-3.1
   # - gemfiles/Gemfile.rails-3.0
 matrix:
   fast_finish: true
