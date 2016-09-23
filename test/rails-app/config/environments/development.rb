@@ -13,4 +13,5 @@ Dummy::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
   config.secret_key_base = 123
+  config.eager_load = false
 end
