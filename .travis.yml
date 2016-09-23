@@ -1,4 +1,6 @@
 language: ruby
+cache: bundler
+
 rvm:
   - 2.2.3
   - 2.0.0
@@ -13,5 +15,3 @@ gemfile:
   # - gemfiles/Gemfile.rails-3.0
 matrix:
   fast_finish: true
-before_install:
-  - gem install bundler
