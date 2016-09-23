@@ -1,3 +1,5 @@
+$VERBOSE=nil # disable noisy warnings
+
 require 'minitest/autorun'
 
 require "rails-app/config/environment"
