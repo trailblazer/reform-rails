@@ -1,16 +1,18 @@
+$VERBOSE=nil # disable noisy warnings
+
 require 'minitest/autorun'
 
 require "rails-app/config/environment"
 require 'reform/rails'
 
-require "reform/form/active_model/validations"
-Reform::Contract.class_eval do
-  feature Reform::Form::ActiveModel::Validations
-end
-# FIXME!
-Reform::Form.class_eval do
-  feature Reform::Form::ActiveModel::Validations
-end
+# require "reform/form/active_model/validations"
+# Reform::Contract.class_eval do
+#   feature Reform::Form::ActiveModel::Validations
+# end
+# # FIXME!
+# Reform::Form.class_eval do
+#   feature Reform::Form::ActiveModel::Validations
+# end
 
 require 'active_record'
 class Artist < ActiveRecord::Base
@@ -43,7 +45,7 @@ Minitest::Spec.class_eval do
   end
 end
 
-I18n.load_path << Dir['test/dummy/config/locales/*.yml']
+I18n.load_path << Dir['test/fixtures/locales/*.yml']
 I18n.backend.load_translations
 
 class BaseTest < MiniTest::Spec
