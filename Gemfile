@@ -4,3 +4,8 @@ source 'https://rubygems.org'
 gemspec
 
 gem "reform"#, path: "../reform"
+
+rails_version = ENV["RAILS_VERSION"] || "4.2"
+
+gem "railties", "~> #{rails_version}"
+gem "activerecord", "~> #{rails_version}"

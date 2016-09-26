@@ -26,6 +26,14 @@ gem 'reform-rails'
 
 Reform-rails needs Reform >= 2.2.
 
+## Contributing
+
+By default your tests will run against rails 4.2.0.
+Please ensure that you test your changes against all supported ruby and rails versions (see .travis.yml)
+
+You can run tests for a specific version of rails by running the following:
+export RAILS_VERSION=4.2.0; bundle update; bundle exec rake test
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
