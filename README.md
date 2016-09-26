@@ -32,7 +32,8 @@ By default your tests will run against rails 4.2.0.
 Please ensure that you test your changes against all supported ruby and rails versions (see .travis.yml)
 
 You can run tests for a specific version of rails by running the following:
-export RAILS_VERSION=4.2.0; bundle update; bundle exec rake test
+
+`export RAILS_VERSION=4.2.0; bundle update; bundle exec rake test`
 
 ## License
 

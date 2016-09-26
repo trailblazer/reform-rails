@@ -1,4 +1,4 @@
-#$VERBOSE=nil # disable noisy warnings
+ENV["RAILS_ENV"] = "test"
 
 require 'minitest/autorun'
 
