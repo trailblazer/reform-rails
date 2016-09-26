@@ -7,11 +7,13 @@ Dummy::Application.configure do
   config.cache_classes = false
 
   # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  config.whiny_nils = true if ::ActiveModel::VERSION::MAJOR == 3
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
   config.secret_key_base = 123
   config.eager_load = false
+
+  config.active_support.deprecation = :log
 end

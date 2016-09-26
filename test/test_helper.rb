@@ -1,4 +1,4 @@
-$VERBOSE=nil # disable noisy warnings
+#$VERBOSE=nil # disable noisy warnings
 
 require 'minitest/autorun'
 
