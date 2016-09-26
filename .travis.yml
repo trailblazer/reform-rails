@@ -18,5 +18,3 @@ matrix:
   exclude:
     - rvm: 2.0.0
       env: "RAILS_VERSION=5.0.0"
-  allow_failures:
-    - env: "RAILS_VERSION=5.0.0"
