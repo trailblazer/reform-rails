@@ -1,8 +1,4 @@
-# 0.1.7
-
-* Restore Reform 2.2.1 internal validation group API. Change will be re-introduced on release of Reform 2.3.0.
-
-# 0.1.6 (Pulled)
+# 0.1.7 (0.1.6 Yanked)
 
 * Fix a bug where requiring `form/active_model/validations` in a non-Rails environment wouldn't load all necessary files.
 
