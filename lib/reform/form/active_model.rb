@@ -53,6 +53,10 @@ module Reform::Form::ActiveModel
       validation(:default, inherit: true) { validates_with *args, &block }
     end
 
+    def validates_each(*args, &block)
+      validation(:default, inherit: true) { validates_each *args, &block }
+    end
+
     # Set a model name for this form if the infered is wrong.
     #
     #   class CoverSongForm < Reform::Form

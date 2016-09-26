@@ -248,4 +248,34 @@ class ActiveModelValidationTest < MiniTest::Spec
     it { AcceptanceForm.new(nil).validate(accept: "0").must_equal false }
     it { AcceptanceForm.new(nil).validate(accept: "1").must_equal true }
   end
+
+  describe "validates_each" do
+   class ValidateEachForm < Reform::Form
+     include Reform::Form::ActiveModel::Validations
+
+     property :songs
+
+     validation do
+       validates_each :songs do |record, attr, value|
+         record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+       end
+     end
+   end
+
+   class ValidateEachForm2 < Reform::Form
+     include Reform::Form::ActiveModel::Validations
+
+     property :songs
+
+     validates_each :songs do |record, attr, value|
+       record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+     end
+   end
+
+   it { ValidateEachForm.new(Album.new).validate(songs: "orange").must_equal false }
+   it { ValidateEachForm.new(Album.new).validate(songs: "red").must_equal true }
+
+   it { ValidateEachForm2.new(Album.new).validate(songs: "orange").must_equal false }
+   it { ValidateEachForm2.new(Album.new).validate(songs: "red").must_equal true }
+ end
 end
