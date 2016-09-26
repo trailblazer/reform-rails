@@ -248,4 +248,41 @@ class ActiveModelValidationTest < MiniTest::Spec
     it { AcceptanceForm.new(nil).validate(accept: "0").must_equal false }
     it { AcceptanceForm.new(nil).validate(accept: "1").must_equal true }
   end
+
+
+
+  require 'ostruct'
+  describe "validates_each" do
+    class ValidateForm2 < Reform::Form
+      include Reform::Form::ActiveModel::Validations
+
+      property :color
+
+      validation :default do
+        validates_each :color do |record, attr, value|
+          record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+        end
+      end
+    end
+
+    it { ValidateForm2.new(OpenStruct.new).validate(color: "orange").must_equal false }
+    it { ValidateForm2.new(OpenStruct.new).validate(color: "red").must_equal true }
+  end
+
+
+  describe "validates_acceptance_of" do
+    class ValidateForm3 < Reform::Form
+      include Reform::Form::ActiveModel::Validations
+
+      property :color
+      property :not_color_blind
+
+      validation :default do
+        validates_acceptance_of :not_color_blind, message: "Please confirm that you are not color blind.", accept: 'true', allow_nil: false
+      end
+    end
+
+    it { ValidateForm3.new(OpenStruct.new).validate(color: "red", not_color_blind: 'false').must_equal false }
+    it { ValidateForm3.new(OpenStruct.new).validate(color: "red", not_color_blind: 'true').must_equal true }
+  end
 end
