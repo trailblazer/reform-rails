@@ -31,9 +31,10 @@
 class Reform::Form::UniqueValidator < ActiveModel::EachValidator
   def validate_each(form, attribute, value)
     model = form.model_for_property(attribute)
+    original_attribute = form.options_for(attribute)[:private_name]
 
     # search for models with attribute equals to form field value
-    query = model.class.where(attribute => value)
+    query = model.class.where(original_attribute => value)
 
     # apply scope if options has been declared
     Array(options[:scope]).each do |field|
