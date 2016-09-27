@@ -1,4 +1,5 @@
 require "active_model"
+require "reform/form/active_model"
 require "uber/delegates"
 
 module Reform::Form::ActiveModel
@@ -49,9 +50,9 @@ module Reform::Form::ActiveModel
       end
 
       extend Uber::Delegates
-      delegates :@validations, :validates, :validate, :validates_with, :validate_with
+      delegates :@validations, :validates, :validate, :validates_with, :validate_with, :validate_each, :validates_each
 
-      def call(form, errors) # FIXME.
+      def call(fields, errors, form) # FIXME.
         validator = @validations.new(form)
         validator.valid?
 
@@ -93,6 +94,14 @@ module Reform::Form::ActiveModel
         super(form)
         self.class.model_name = form.model_name # one of the many reasons why i will drop support for AM::V in 2.1. or maybe a bit later.
       end
+
+      # FIXME: for some weird reason, Object#format is reserved and form.send(:format) crashes with ArgumentError: too few arguments.
+      # method_missing fix doesn't work with ruby 2.0 or 2.3
+
+      # this fixes 2.0 but I'm guessing that their are more methods than just format to consider
+      # def format
+      #   __getobj__.format
+      # end
 
       def method_missing(m, *args, &block)
         __getobj__.send(m, *args, &block) # send all methods to the form, even privates.

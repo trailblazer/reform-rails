@@ -8,7 +8,7 @@ Dummy::Application.configure do
   config.cache_classes = true
 
   # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  config.whiny_nils = true if ::ActiveModel::VERSION::MAJOR == 3
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -30,4 +30,7 @@ Dummy::Application.configure do
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
+
+  config.eager_load = false
+  config.active_support.deprecation = :log
 end

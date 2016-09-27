@@ -8,7 +8,6 @@ class ActiveModelValidationTest < MiniTest::Spec
   class SessionForm < Reform::Form
     include Reform::Form::ActiveModel::Validations
 
-
     property :username
     property :email
     property :password
@@ -49,7 +48,7 @@ class ActiveModelValidationTest < MiniTest::Spec
 
   # partially invalid.
   # 2nd group fails.
-  let (:character) { self.class.rails4_2? ? :character : :characters}
+  let (:character) { self.class.rails_greater_4_1? ? :character : :characters}
   it do
     form.validate(username: "Helloween", email: "yo").must_equal false
     form.errors.messages.inspect.must_equal "{:email=>[\"is the wrong length (should be 3 characters)\"], :confirm_password=>[\"is the wrong length (should be 2 characters)\"], :password=>[\"can't be blank\", \"is the wrong length (should be 1 #{character})\"]}"
@@ -245,7 +244,44 @@ class ActiveModelValidationTest < MiniTest::Spec
       property :accept, virtual: true, validates: { acceptance: true }
     end
 
-    it { AcceptanceForm.new(nil).validate(accept: "0").must_equal false }
-    it { AcceptanceForm.new(nil).validate(accept: "1").must_equal true }
+    it do
+      skip('fails in rails 5') if self.class.rails5_0?
+      AcceptanceForm.new(nil).validate(accept: "0").must_equal false
+    end
+
+    it do
+      skip('fails in rails 5') if self.class.rails5_0?
+      AcceptanceForm.new(nil).validate(accept: "1").must_equal true
+    end
   end
+
+  describe "validates_each" do
+   class ValidateEachForm < Reform::Form
+     include Reform::Form::ActiveModel::Validations
+
+     property :songs
+
+     validation do
+       validates_each :songs do |record, attr, value|
+         record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+       end
+     end
+   end
+
+   class ValidateEachForm2 < Reform::Form
+     include Reform::Form::ActiveModel::Validations
+
+     property :songs
+
+     validates_each :songs do |record, attr, value|
+       record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+     end
+   end
+
+   it { ValidateEachForm.new(Album.new).validate(songs: "orange").must_equal false }
+   it { ValidateEachForm.new(Album.new).validate(songs: "red").must_equal true }
+
+   it { ValidateEachForm2.new(Album.new).validate(songs: "orange").must_equal false }
+   it { ValidateEachForm2.new(Album.new).validate(songs: "red").must_equal true }
+ end
 end
