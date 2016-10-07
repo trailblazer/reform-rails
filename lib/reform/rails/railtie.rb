@@ -33,9 +33,9 @@ module Reform
         Reform::Form.class_eval do
           include Reform::Form::ActiveModel
           include Reform::Form::ActiveModel::FormBuilderMethods
+          include Reform::Form::ActiveModel::Validations
           include Reform::Form::ActiveRecord if defined?(ActiveRecord)
           include Reform::Form::Mongoid if defined?(Mongoid)
-          include Reform::Form::ActiveModel::Validations
         end
       end
 

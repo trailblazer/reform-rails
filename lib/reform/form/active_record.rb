@@ -15,8 +15,26 @@ module Reform::Form::ActiveRecord
       options = options.merge(:attributes => [attribute])
       validates_with(UniquenessValidator, options)
     end
+
     def i18n_scope
       :activerecord
+    end
+
+    def human_attribute_name(*args)
+      if model_class
+        model_class.human_attribute_name(*args)
+      else
+        super
+      end
+    end
+
+    def model_class
+      @model_class ||=
+        if Object.const_defined?(model_name.to_s)
+          Object.const_get(model_name.to_s)
+        else
+          nil
+        end
     end
   end
 

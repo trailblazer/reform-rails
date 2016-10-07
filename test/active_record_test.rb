@@ -270,4 +270,43 @@ class PopulateWithActiveRecordTest < MiniTest::Spec
 end
 
 
+class ActiveRecordTranslationsTest < MiniTest::Spec
+  class Song < ActiveRecord::Base
+  end
 
+  class SongForm < Reform::Form
+    include Reform::Form::ActiveModel::Validations
+    include Reform::Form::ActiveRecord
+
+    property :title
+    property :created_at
+  end
+
+  class AlbomForm < Reform::Form
+    include Reform::Form::ActiveModel::Validations
+    include Reform::Form::ActiveRecord
+
+    property :title
+  end
+
+  before do
+    I18n.backend.store_translations(:en,
+      activerecord: {
+        attributes: {
+          'active_record_translations_test/song': {
+            title: 'Song title',
+          }
+        }
+      }
+    )
+  end
+
+  it 'translate attributes with ActiveRecord model' do
+    SongForm.human_attribute_name(:title).must_equal 'Song title'
+    SongForm.human_attribute_name(:created_at).must_equal 'Created at'
+  end
+
+  it 'translate attributes without ActiveRecord model' do
+    AlbomForm.human_attribute_name(:title).must_equal 'Title'
+  end
+end
