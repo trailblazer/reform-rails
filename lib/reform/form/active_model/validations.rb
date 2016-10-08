@@ -17,10 +17,14 @@ module Reform::Form::ActiveModel
         class << self
           extend Uber::Delegates
           # # Hooray! Delegate translation back to Reform's Validator class which contains AM::Validations.
-          delegates :active_model_really_sucks, :human_attribute_name, :lookup_ancestors, :i18n_scope # Rails 3.1.
+          delegates :active_model_really_sucks, :human_attribute_name, :lookup_ancestors # Rails 3.1.
 
           def validation_group_class
             Group
+          end
+
+          def i18n_scope
+            :activemodel
           end
 
           # this is to allow calls like Form::human_attribute_name (note that this is on the CLASS level) to be resolved.
@@ -28,6 +32,7 @@ module Reform::Form::ActiveModel
           def active_model_really_sucks
             Class.new(Validator).tap do |v|
               v.model_name = model_name
+              v.i18n_scope = i18n_scope
             end
           end
         end
@@ -76,6 +81,14 @@ module Reform::Form::ActiveModel
 
         def model_name=(name)
           @_active_model_sucks = name
+        end
+
+        def i18n_scope
+          @i18n_scope || super
+        end
+
+        def i18n_scope=(value)
+          @i18n_scope = value
         end
 
         def validates(*args, &block)
