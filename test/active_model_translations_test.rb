@@ -10,7 +10,7 @@ class ActiveModelTranslationsTest < MiniTest::Spec
     I18n.backend.store_translations(:en,
       activemodel: {
         attributes: {
-          'active_model_translations_test/song': {
+          'active_model_translations_test/song' => {
             title: 'Song title',
           }
         }
