@@ -19,7 +19,11 @@ module Reform::Form::MultiParameterAttributes
           )
         end
       end
-      params.merge!(date_attributes)
+
+      date_attributes.each do |attribute, date|
+        params[attribute] = date
+      end
+      params
     end
 
   private
