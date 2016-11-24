@@ -39,7 +39,7 @@ module Reform
         end
       end
 
-      def dry!(enable_am = false)
+      def dry!(enable_am = true)
         if enable_am
           require "reform/form/active_model/form_builder_methods" # this is for simple_form, etc.
 
