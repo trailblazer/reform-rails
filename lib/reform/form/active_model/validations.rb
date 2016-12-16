@@ -52,7 +52,7 @@ module Reform::Form::ActiveModel
       extend Uber::Delegates
       delegates :@validations, :validates, :validate, :validates_with, :validate_with, :validate_each, :validates_each
 
-      def call(fields, errors, form) # FIXME.
+      def call(form, errors) # FIXME.
         validator = @validations.new(form)
         validator.valid?
 
