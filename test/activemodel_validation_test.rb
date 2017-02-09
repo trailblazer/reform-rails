@@ -219,6 +219,9 @@ class ActiveModelValidationTest < MiniTest::Spec
       validates :username, presence: true
       validate :username_ok?#, context: :entity
 
+      # this breaks as at the point of execution 'errors' doesn't exist...
+      # Guessing it's unexceptable to introduce our own API....
+      # add_error(:key, val)
       def username_ok?#(value)
         errors.add(:username, "not ok") if username == "yo"
       end
@@ -227,13 +230,13 @@ class ActiveModelValidationTest < MiniTest::Spec
     let (:form) { ValidateForm.new(Session.new) }
 
     # invalid.
-    it do
+    it "is invalid" do
       form.validate({username: "yo"}).must_equal false
       form.errors.messages.inspect.must_equal "{:username=>[\"not ok\"]}"
     end
 
     # valid.
-    it do
+    it "is valid" do
       form.validate({username: "not yo"}).must_equal true
       form.errors.empty?.must_equal true
     end

@@ -7,18 +7,8 @@ module Reform
     extend Forwardable
 
     # inject methods for rails to make it smell like a hash
-    def_delegators :messages, :empty?, :size, :count
+    def_delegators :messages, :empty?, :size, :count, :to_s
   end
-
-  # class Contract::Result
-  #   def errors(*args);   filter_for(:errors, *args) end
-  #   def messages(*args); filter_for(:messages, *args) end
-  # end
-
-  # class Contract::Result::Pointer
-  #   def errors(*args); @result.errors.traverse_for(:messages, *args) end
-  #   def messages(*args); errors end
-  # end
 
   module Form::ActiveModel
   # AM::Validations for your form.
@@ -116,18 +106,12 @@ module Reform
           errors.messages
         end
 
-        def failure?
-          !success?
-        end
-
         def success?
           messages.size == 0
         end
 
-        # rather than redefining #errors which would break rails form builders, lets just
-        # define fetch to delegate to errors.messages
-        def fetch(key, &block)
-          messages.fetch(key, &block)
+        def failure?
+          !success?
         end
 
         def method_missing(m, *args, &block)
