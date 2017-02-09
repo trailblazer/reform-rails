@@ -184,7 +184,7 @@ class ActiveModelValidationTest < MiniTest::Spec
       end
 
       # run this is :email group is true.
-      validation name: :after_email, if: lambda { |results| results[:email]==true } do # extends the above.
+      validation name: :after_email, if: lambda { |results| results[:email].success? } do # extends the above.
         validates :username, presence: true
       end
 
