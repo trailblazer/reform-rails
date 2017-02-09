@@ -14,21 +14,21 @@ class ActiveModelValidationTest < MiniTest::Spec
     property :password
     property :confirm_password
 
-    validation :default do
+    validation name: :default do
       validates :username, presence: true
       validates :email, presence: true
     end
 
-    validation :email, if: :default do
+    validation name: :email, if: :default do
       # validate :email_ok? # FIXME: implement that.
       validates :email, length: {is: 3}
     end
 
-    validation :nested, if: :default do
+    validation name: :nested, if: :default do
       validates :password, presence: true, length: {is: 1}
     end
 
-    validation :confirm, if: :default, after: :email do
+    validation name: :confirm, if: :default, after: :email do
       validates :confirm_password, length: {is: 2}
     end
   end
@@ -81,7 +81,7 @@ class ActiveModelValidationTest < MiniTest::Spec
       validates :email, presence: true
       validates :password, presence: true
 
-      validation :after_default, if: :default do
+      validation name: :after_default, if: :default do
         validates :confirm_password, presence: true
       end
     end
@@ -147,11 +147,11 @@ class ActiveModelValidationTest < MiniTest::Spec
       property :username
       property :email
 
-      validation :email do
+      validation name: :email do
         validates :email, presence: true
       end
 
-      validation :email, inherit: true do # extends the above.
+      validation name: :email, inherit: true do # extends the above.
         validates :username, presence: true
       end
     end
@@ -179,17 +179,17 @@ class ActiveModelValidationTest < MiniTest::Spec
       property :email
       property :password
 
-      validation :email do
+      validation name: :email do
         validates :email, presence: true
       end
 
       # run this is :email group is true.
-      validation :after_email, if: lambda { |results| results[:email]==true } do # extends the above.
+      validation name: :after_email, if: lambda { |results| results[:email]==true } do # extends the above.
         validates :username, presence: true
       end
 
       # block gets evaled in form instance context.
-      validation :password, if: lambda { |results| email == "john@trb.org" } do
+      validation name: :password, if: lambda { |results| email == "john@trb.org" } do
         validates :password, presence: true
       end
     end
