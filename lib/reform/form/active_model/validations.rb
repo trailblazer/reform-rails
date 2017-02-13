@@ -48,6 +48,18 @@ module Reform
         send(name)
       end
 
+      # def errors(*args)
+      #   @amv_errors ||= Result::Errors.new(self)
+      # end
+
+      # def validate!(*args)
+      #   old_errors = @amv_errors # super now writes to this. it is ridiculously ugly.
+      #   super.tap do
+      #     puts "@@@@ uo #{old_errors}" if old_errors and old_errors.any?
+      #   end
+      # end
+
+
       class Group
         def initialize(*)
           @validations = Class.new(Reform::Form::ActiveModel::Validations::Validator)
@@ -58,8 +70,40 @@ module Reform
 
         def call(form)
           validator = @validations.new(form)
-          validator.valid? # run the validations
-          return validator
+          success = validator.valid? # run the validations
+
+          Result.new(success, validator.errors.messages)
+        end
+      end
+
+      # The idea here to mimic Dry.RB's Result API.
+      class Result < Hash # FIXME; should this be AMV::Errors?
+        def initialize(success, hash)
+          super()
+          @success = success
+          hash.each { |k,v| self[k] = v }
+        end
+
+        def success?
+          @success
+        end
+
+        def failure?
+          ! success?
+        end
+
+        def messages
+          self
+        end
+
+        # DISCUSS @FRAN: not sure this is 100% compatible with AMV::Errors?
+        def errors
+          self
+        end
+
+        # MERGE WITH ABOVE?
+        class Errors < ActiveModel::Errors
+
         end
       end
 
@@ -96,37 +140,12 @@ module Reform
           self.class.model_name = form.model_name
         end
 
-        # hints don't exist in AMV so lets just return an empty hash
-        def hints
-          {}
-        end
-
-        # Provide access to the messages hash for new reform errors API
-        def messages
-          errors.messages
-        end
-
-        def success?
-          messages.size == 0
-        end
-
-        def failure?
-          !success?
-        end
-
         def method_missing(m, *args, &block)
           __getobj__.send(m, *args, &block) # send all methods to the form, even privates.
         end
       end
     end
-    # class Errors < ActiveModel::Errors
-    #   extend Forwardable
-    #
-    #   def initialize(errors)
-    #     @errors
-    #   end
-    #
-    #   def_delegators :@errors, :success?, :failure?
-    # end
+
+
   end
 end
