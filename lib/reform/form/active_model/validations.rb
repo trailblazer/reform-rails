@@ -51,13 +51,10 @@ module Reform
         @amv_errors = Result::Errors.new(self)
 
         super.tap do
-          puts "@@@@@ #{@amv_errors.inspect} in #{self}"
-          # puts "@@@@@ #{@amv_errors.failure?.inspect}"
           # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
 
           @result = Reform::Contract::Result.new(@result.instance_variable_get(:@results)+[@amv_errors] )
-          # puts "@@@@@xxxxx #{!!@result.failure?.inspect}"
-          @amv_errors = Result.new(@result.success?, @result.messages)
+          @amv_errors = Reform::Contract::Result::Errors.new(@result, self)
         end
         @result
       end
