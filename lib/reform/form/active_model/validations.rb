@@ -3,13 +3,6 @@ require "reform/form/active_model"
 require "uber/delegates"
 
 module Reform
-  class Contract::Result::Errors
-    extend Forwardable
-
-    # inject methods for rails to make it smell like a hash
-    def_delegators :messages, :empty?, :size, :count, :to_s
-  end
-
   module Form::ActiveModel
   # AM::Validations for your form.
   # Provides ::validates, ::validate, #validate, and #valid?.
@@ -48,16 +41,26 @@ module Reform
         send(name)
       end
 
-      # def errors(*args)
-      #   @amv_errors ||= Result::Errors.new(self)
-      # end
+      def errors(*args)
+        # raise
+        # puts "errors"
+        @amv_errors
+      end
 
-      # def validate!(*args)
-      #   old_errors = @amv_errors # super now writes to this. it is ridiculously ugly.
-      #   super.tap do
-      #     puts "@@@@ uo #{old_errors}" if old_errors and old_errors.any?
-      #   end
-      # end
+      def validate!(params, pointers=[])
+        @amv_errors = Result::Errors.new(self)
+
+        super.tap do
+          puts "@@@@@ #{@amv_errors.inspect} in #{self}"
+          # puts "@@@@@ #{@amv_errors.failure?.inspect}"
+          # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
+
+          @result = Reform::Contract::Result.new(@result.instance_variable_get(:@results)+[@amv_errors] )
+          # puts "@@@@@xxxxx #{!!@result.failure?.inspect}"
+          @amv_errors = Result.new(@result.success?, @result.messages)
+        end
+        @result
+      end
 
 
       class Group
@@ -103,7 +106,9 @@ module Reform
 
         # MERGE WITH ABOVE?
         class Errors < ActiveModel::Errors
-
+          def failure?
+            any?
+          end
         end
       end
 
