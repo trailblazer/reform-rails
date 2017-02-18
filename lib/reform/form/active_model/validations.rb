@@ -111,6 +111,10 @@ module Reform
           def empty?
             size == 0
           end
+
+          def [](k)
+            super || []
+          end
         end
       end
 
