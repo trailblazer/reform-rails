@@ -19,7 +19,7 @@ class UniquenessValidatorOnCreateTest < MiniTest::Spec
 
     form = SongForm.new(Song.new)
     form.validate("title" => "How Many Tears").must_equal false
-    form.errors.to_s.must_equal "{:title=>[\"has already been taken\"]}"
+    form.errors.messages.must_equal ({:title=>["has already been taken"]})
   end
 end
 
@@ -84,7 +84,7 @@ class UniqueValidatorWithScopeTest < MiniTest::Spec
 
     form = SongForm.new(Song.new)
     form.validate(album_id: album.id, title: 'How Many Tears').must_equal false
-    form.errors.to_s.must_equal "{:title=>[\"has already been taken\"]}"
+    form.errors.messages.must_equal({:title=>["has already been taken"]})
 
     album = Album.new
     album.save
@@ -118,7 +118,7 @@ class UniqueValidatorWithScopeArrayTest < MiniTest::Spec
 
     form = SongForm.new(Song.new)
     form.validate(album_id: album1.id, artist_id: artist1.id, title: 'How Many Tears').must_equal false
-    form.errors.to_s.must_equal "{:title=>[\"has already been taken\"]}"
+    form.errors.messages.must_equal({:title=>["has already been taken"]})
 
     album2 = Album.new
     album2.save

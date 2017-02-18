@@ -48,13 +48,13 @@ module Reform
       end
 
       def validate!(params, pointers=[])
-        @amv_errors = Result::Errors.new(self)
+        @amv_errors = Result::Errors.new(self) # Errors < AMV::Errors, so we have identical API.
 
         super.tap do
           # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
 
           @result = Reform::Contract::Result.new(@result.instance_variable_get(:@results)+[@amv_errors] )
-          @amv_errors = Reform::Contract::Result::Errors.new(@result, self)
+          @amv_errors = Result::ResultErrors.new(@result, self)
         end
         @result
       end
@@ -101,10 +101,15 @@ module Reform
           self
         end
 
-        # MERGE WITH ABOVE?
-        class Errors < ActiveModel::Errors
+        class Errors < ActiveModel::Errors # when validating
           def failure?
             any?
+          end
+        end
+
+        class ResultErrors < ::Reform::Contract::Result::Errors
+          def empty?
+            size == 0
           end
         end
       end

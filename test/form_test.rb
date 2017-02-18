@@ -10,6 +10,6 @@ class FormTest < Minitest::Spec
   it do
     form = SongForm.new(OpenStruct.new)
     form.validate({})
-    form.errors.to_s.must_equal "{:title=>[\"can't be blank\"], :genre=>[\"can't be blank\"], :band=>[\"can't be blank\"]}"
+    form.errors.messages.must_equal({:title=>["can't be blank"], :genre=>["can't be blank"], :band=>["can't be blank"]})
   end
 end
