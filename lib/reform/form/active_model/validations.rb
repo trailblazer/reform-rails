@@ -42,8 +42,6 @@ module Reform
       end
 
       def errors(*args)
-        # raise
-        # puts "errors"
         @amv_errors
       end
 
@@ -52,8 +50,10 @@ module Reform
 
         super.tap do
           # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
+          all_errors = @result.instance_variable_get(:@results)
+          all_errors += [@amv_errors] if @amv_errors.any?
 
-          @result = Reform::Contract::Result.new(@result.instance_variable_get(:@results)+[@amv_errors] )
+          @result = Reform::Contract::Result.new(all_errors)
           @amv_errors = Result::ResultErrors.new(@result, self)
         end
         @result
@@ -107,7 +107,7 @@ module Reform
           end
         end
 
-        class ResultErrors < ::Reform::Contract::Result::Errors
+        class ResultErrors < ::Reform::Contract::Result::Errors # to expose via #errors. i hate it.
           def empty?
             size == 0
           end
