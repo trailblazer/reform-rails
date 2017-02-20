@@ -215,10 +215,15 @@ class ActiveModelValidationTest < MiniTest::Spec
     class ValidateForm < Reform::Form
       include Reform::Form::ActiveModel::Validations
 
+      property :email
       property :username
+
       validates :username, presence: true
       validate :username_ok?#, context: :entity
       validate :username_yo?
+
+      validates :email, presence: true
+      validate :email_present?
 
       # this breaks as at the point of execution 'errors' doesn't exist...
       # Guessing it's unexceptable to introduce our own API....
@@ -231,6 +236,11 @@ class ActiveModelValidationTest < MiniTest::Spec
       def username_yo?
         errors.add(:username, "must be yo") if errors[:username].any?
       end
+
+      def email_present?
+        puts errors[:email].any?
+        errors.add(:email, "fill it out!") if errors[:email].any?
+      end
     end
 
     let (:form) { ValidateForm.new(Session.new) }
@@ -238,12 +248,12 @@ class ActiveModelValidationTest < MiniTest::Spec
     # invalid.
     it "is invalid" do
       form.validate({username: "yo"}).must_equal false
-      form.errors.messages.inspect.must_equal "{:username=>[\"not ok\", \"must be yo\"]}"
+      form.errors.messages.must_equal({:email=>["can't be blank", "fill it out!"], :username=>["not ok", "must be yo"]})
     end
 
     # valid.
     it "is valid" do
-      form.validate({username: "not yo"}).must_equal true
+      form.validate({ username: "not yo", email: "bla" }).must_equal true
       form.errors.messages.must_equal({})
       form.errors.empty?.must_equal true
     end

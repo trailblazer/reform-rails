@@ -41,6 +41,8 @@ module Reform
         send(name)
       end
 
+      # Problem with this method is, it's being used in two completely different contexts: Once to add errors in validations,
+      # and second to expose errors for presentation.
       def errors(*args)
         @amv_errors
       end
@@ -70,7 +72,7 @@ module Reform
 
         def call(form)
           validator = @validations.new(form)
-          success = validator.valid? # run the validations
+          success = validator.valid? # run the validations.
 
           Result.new(success, validator.errors.messages)
         end
