@@ -48,15 +48,15 @@ module Reform
       end
 
       def validate!(params, pointers=[])
-        @amv_errors = Result::Errors.new(self) # Errors < AMV::Errors, so we have identical API.
+        @amv_errors = ActiveModel::Errors.new(self)
 
         super.tap do
           # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
           all_errors = @result.instance_variable_get(:@results)
-          all_errors += [@amv_errors] if @amv_errors.any?
 
           @result = Reform::Contract::Result.new(all_errors)
-          @amv_errors = Result::ResultErrors.new(@result, self)
+
+          @amv_errors = Result::ResultErrors.new(@result, self, @result.success?)
         end
         @result
       end
@@ -72,6 +72,7 @@ module Reform
 
         def call(form)
           validator = @validations.new(form)
+          validator.instance_variable_set(:@errors, form.errors)
           success = validator.valid? # run the validations.
 
           Result.new(success, validator.errors.messages)
@@ -103,15 +104,14 @@ module Reform
           self
         end
 
-        class Errors < ActiveModel::Errors # when validating
-          def failure?
-            any?
-          end
-        end
-
         class ResultErrors < ::Reform::Contract::Result::Errors # to expose via #errors. i hate it.
+          def initialize(a, b, success)
+            super(a, b)
+            @success = success
+          end
+
           def empty?
-            size == 0
+            @success
           end
 
           def [](k)

@@ -238,7 +238,6 @@ class ActiveModelValidationTest < MiniTest::Spec
       end
 
       def email_present?
-        puts errors[:email].any?
         errors.add(:email, "fill it out!") if errors[:email].any?
       end
     end
@@ -247,14 +246,14 @@ class ActiveModelValidationTest < MiniTest::Spec
 
     # invalid.
     it "is invalid" do
-      form.validate({username: "yo"}).must_equal false
+      form.validate({username: "yo", email: nil}).must_equal false
       form.errors.messages.must_equal({:email=>["can't be blank", "fill it out!"], :username=>["not ok", "must be yo"]})
     end
 
     # valid.
     it "is valid" do
       form.validate({ username: "not yo", email: "bla" }).must_equal true
-      form.errors.messages.must_equal({})
+      form.errors.messages.must_equal({:username=>[], :email=>[]})
       form.errors.empty?.must_equal true
     end
   end
