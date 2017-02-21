@@ -33,3 +33,7 @@ en:
               attributes:
                 title:
                   taken: has already been taken
+        uniqueness_validator_with_from_property_test/song:
+              attributes:
+                name:
+                  taken: has already been taken

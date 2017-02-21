@@ -37,12 +37,13 @@
 class Reform::Form::UniqueValidator < ActiveModel::EachValidator
   def validate_each(form, attribute, value)
     model = form.model_for_property(attribute)
+    original_attribute = form.options_for(attribute)[:private_name]
 
     # search for models with attribute equals to form field value
     query = if options[:case_sensitive] == false && value
-              model.class.where("lower(#{attribute}) = ?", value.downcase)
+              model.class.where("lower(#{original_attribute}) = ?", value.downcase)
             else
-              model.class.where(attribute => value)
+              model.class.where(original_attribute => value)
             end
 
     # if model persisted, query should bypass model
