@@ -5,7 +5,12 @@ gemspec
 
 gem "reform", github: "trailblazer/reform"
 
-rails_version = ENV["RAILS_VERSION"] || "4.2"
+rails_version = ENV['RAILS_VERSION'] || '4.2'
+
+# bored of wrestling with rails...
+unless rails_version == '4.0'
+  gem "minitest-line"
+end
 
 gem "railties", "~> #{rails_version}"
 gem "activerecord", "~> #{rails_version}"
