@@ -1,12 +1,15 @@
+ENV["RAILS_ENV"] = "test"
+
 require 'minitest/autorun'
 
 require "rails-app/config/environment"
 require 'reform/rails'
 
+require "reform/form/active_model/form_builder_methods"
+require "reform/form/active_model"
+
+require "reform/form/active_model/model_validations"
 require "reform/form/active_model/validations"
-Reform::Form.class_eval do
-  feature Reform::Form::ActiveModel::Validations
-end
 
 require 'active_record'
 class Artist < ActiveRecord::Base
@@ -26,20 +29,17 @@ ActiveRecord::Base.establish_connection(
 )
 
 Minitest::Spec.class_eval do
-  def self.rails4_2?
-    ::ActiveModel::VERSION::MAJOR == 4 and ::ActiveModel::VERSION::MINOR == 2
+  def self.rails5_0?
+    ::ActiveModel::VERSION::MAJOR == 5 and ::ActiveModel::VERSION::MINOR == 0
   end
 
-  def self.rails4_0?
-    ::ActiveModel::VERSION::MAJOR == 4 and ::ActiveModel::VERSION::MINOR == 0
-  end
-
-  def self.rails3_2?
-    ::ActiveModel::VERSION::MAJOR == 3 and ::ActiveModel::VERSION::MINOR == 2
+  def self.rails_greater_4_1?
+    (::ActiveModel::VERSION::MAJOR == 4 and ::ActiveModel::VERSION::MINOR == 2) || (::ActiveModel::VERSION::MAJOR >= 5)
   end
 end
 
-I18n.load_path << Dir['test/dummy/config/locales/*.yml']
+I18n.load_path << Dir['test/fixtures/locales/*.yml']
+I18n.default_locale = :en
 I18n.backend.load_translations
 
 class BaseTest < MiniTest::Spec

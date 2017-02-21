@@ -24,7 +24,7 @@ class ReformTest < Minitest::Spec
     it "handles invalid Time input" do
       date_of_birth_params = { "date_of_birth(1i)"=>"1950", "date_of_birth(2i)"=>"99", "date_of_birth(3i)"=>"1" }
       form.validate(date_of_birth_params)
-      form.date_of_birth.must_equal nil
+      assert_nil form.date_of_birth
     end
   end
 
@@ -48,7 +48,7 @@ class ReformTest < Minitest::Spec
     it "handles invalid Time input" do
       start_time_params = { "start_time(1i)"=>"2000", "start_time(2i)"=>"99", "start_time(3i)"=>"1", "start_time(4i)"=>"12", "start_time(5i)"=>"00" }
       form.validate(start_time_params)
-      form.start_time.must_equal nil
+      assert_nil form.start_time
     end
   end
 end

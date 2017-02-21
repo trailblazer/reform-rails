@@ -1,0 +1,27 @@
+---
+en:
+  # custom validation error messages
+
+  activemodel:
+    errors:
+      models:
+        song:
+          attributes:
+            title:
+              custom_error_message: Custom Error Message
+        unique_validator_with_scope_array_test/song:
+              attributes:
+                title:
+                  taken: has already been taken
+        uniqueness_validator_on_create_test/song:
+              attributes:
+                title:
+                  taken: has already been taken
+        uniqueness_validator_on_update_with_duplicate_test/song:
+              attributes:
+                title:
+                  taken: has already been taken
+        unique_validator_with_scope_test/song:
+              attributes:
+                title:
+                  taken: has already been taken
