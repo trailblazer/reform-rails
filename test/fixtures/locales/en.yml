@@ -25,3 +25,11 @@ en:
               attributes:
                 title:
                   taken: has already been taken
+        unique_validator_with_scope_and_case_insensitive_test/song:
+              attributes:
+                title:
+                  taken: has already been taken
+        uniqueness_validator_on_create_case_insensitive_test/song:
+              attributes:
+                title:
+                  taken: has already been taken
