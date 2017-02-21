@@ -8,8 +8,8 @@ gem "reform", github: "trailblazer/reform"
 rails_version = ENV['RAILS_VERSION'] || '4.2'
 
 # bored of wrestling with rails...
-unless rails_version == '4.0'
-  gem "minitest-line"
+if rails_version == '4.0'
+  gem 'mongoid', '~> 4'
 end
 
 gem "railties", "~> #{rails_version}"
