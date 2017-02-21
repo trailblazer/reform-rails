@@ -117,6 +117,11 @@ module Reform
           def [](k)
             super || []
           end
+
+          # rails expects this to return a stringified hash of the messages
+          def to_s
+            messages.to_s
+          end
         end
       end
 
