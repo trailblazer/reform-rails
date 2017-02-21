@@ -7,6 +7,12 @@
 # validates :title, unique: true
 #
 # == Options
+#
+# = Case Sensitivity
+# Case sensitivity is true by default, but can be set to false:
+#
+# validates :title, unique: { case_sensitive: false }
+#
 # = Scope
 # A scope can be use to filter the records that need to be compare with the
 # current value to validate. A scope array can have one to many fields define.
@@ -33,7 +39,11 @@ class Reform::Form::UniqueValidator < ActiveModel::EachValidator
     model = form.model_for_property(attribute)
 
     # search for models with attribute equals to form field value
-    query = model.class.where(attribute => value)
+    query = if options[:case_sensitive] == false && value
+              model.class.where("lower(#{attribute}) = ?", value.downcase)
+            else
+              model.class.where(attribute => value)
+            end
 
     # if model persisted, query should bypass model
     if model.persisted?

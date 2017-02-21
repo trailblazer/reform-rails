@@ -13,21 +13,21 @@ class ActiveModelValidationTest < MiniTest::Spec
     property :password
     property :confirm_password
 
-    validation :default do
+    validation name: :default do
       validates :username, presence: true
       validates :email, presence: true
     end
 
-    validation :email, if: :default do
+    validation name: :email, if: :default do
       # validate :email_ok? # FIXME: implement that.
       validates :email, length: {is: 3}
     end
 
-    validation :nested, if: :default do
+    validation name: :nested, if: :default do
       validates :password, presence: true, length: {is: 1}
     end
 
-    validation :confirm, if: :default, after: :email do
+    validation name: :confirm, if: :default, after: :email do
       validates :confirm_password, length: {is: 2}
     end
   end
@@ -80,7 +80,7 @@ class ActiveModelValidationTest < MiniTest::Spec
       validates :email, presence: true
       validates :password, presence: true
 
-      validation :after_default, if: :default do
+      validation name: :after_default, if: :default do
         validates :confirm_password, presence: true
       end
     end
@@ -146,11 +146,11 @@ class ActiveModelValidationTest < MiniTest::Spec
       property :username
       property :email
 
-      validation :email do
+      validation name: :email do
         validates :email, presence: true
       end
 
-      validation :email, inherit: true do # extends the above.
+      validation name: :email, inherit: true do # extends the above.
         validates :username, presence: true
       end
     end
@@ -178,17 +178,17 @@ class ActiveModelValidationTest < MiniTest::Spec
       property :email
       property :password
 
-      validation :email do
+      validation name: :email do
         validates :email, presence: true
       end
 
       # run this is :email group is true.
-      validation :after_email, if: lambda { |results| results[:email]==true } do # extends the above.
+      validation name: :after_email, if: lambda { |results| results[:email].success? } do # extends the above.
         validates :username, presence: true
       end
 
       # block gets evaled in form instance context.
-      validation :password, if: lambda { |results| email == "john@trb.org" } do
+      validation name: :password, if: lambda { |results| email == "john@trb.org" } do
         validates :password, presence: true
       end
     end
@@ -214,26 +214,45 @@ class ActiveModelValidationTest < MiniTest::Spec
     class ValidateForm < Reform::Form
       include Reform::Form::ActiveModel::Validations
 
+      property :email
       property :username
+
       validates :username, presence: true
       validate :username_ok?#, context: :entity
+      validate :username_yo?
 
+      validates :email, presence: true
+      validate :email_present?
+
+      # this breaks as at the point of execution 'errors' doesn't exist...
+      # Guessing it's unexceptable to introduce our own API....
+      # add_error(:key, val)
       def username_ok?#(value)
         errors.add(:username, "not ok") if username == "yo"
+      end
+
+      # depends on username_ok? result. this tests the same errors is used.
+      def username_yo?
+        errors.add(:username, "must be yo") if errors[:username].any?
+      end
+
+      def email_present?
+        errors.add(:email, "fill it out!") if errors[:email].any?
       end
     end
 
     let (:form) { ValidateForm.new(Session.new) }
 
     # invalid.
-    it do
-      form.validate({username: "yo"}).must_equal false
-      form.errors.messages.inspect.must_equal "{:username=>[\"not ok\"]}"
+    it "is invalid" do
+      form.validate({username: "yo", email: nil}).must_equal false
+      form.errors.messages.must_equal({:email=>["can't be blank", "fill it out!"], :username=>["not ok", "must be yo"]})
     end
 
     # valid.
-    it do
-      form.validate({username: "not yo"}).must_equal true
+    it "is valid" do
+      form.validate({ username: "not yo", email: "bla" }).must_equal true
+      form.errors.messages.must_equal({:username=>[], :email=>[]})
       form.errors.empty?.must_equal true
     end
   end
