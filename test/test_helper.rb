@@ -39,7 +39,6 @@ Minitest::Spec.class_eval do
 end
 
 I18n.load_path << Dir['test/fixtures/locales/*.yml']
-I18n.default_locale = :en
 I18n.backend.load_translations
 
 class BaseTest < MiniTest::Spec

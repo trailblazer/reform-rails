@@ -61,14 +61,13 @@ module Reform
         @result
       end
 
-
       class Group
         def initialize(*)
           @validations = Class.new(Reform::Form::ActiveModel::Validations::Validator)
         end
 
         extend Uber::Delegates
-        delegates :@validations, :validates, :validate, :validates_with, :validate_with
+        delegates :@validations, :validates, :validate, :validates_with, :validate_with, :validates_each
 
         def call(form)
           validator = @validations.new(form)

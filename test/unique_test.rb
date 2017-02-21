@@ -70,6 +70,25 @@ class UniquenessValidatorOnUpdateTest < MiniTest::Spec
   end
 end
 
+class UniquenessValidatorOnUpdateWithDuplicateTest < MiniTest::Spec
+  class SongForm < Reform::Form
+    include ActiveRecord
+    property :title
+    validates :title, unique: true
+  end
+
+  it do
+    Song.delete_all
+
+    song1 = Song.create(title: "How Many Tears")
+    song2 = Song.create(title: "How Many Tears 2")
+
+    form = SongForm.new(song1)
+    form.validate("title" => "How Many Tears 2").must_equal false
+    form.errors.to_s.must_equal "{:title=>[\"has already been taken\"]}"
+  end
+end
+
 
 class UniqueWithCompositionTest < MiniTest::Spec
   class SongForm < Reform::Form

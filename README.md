@@ -3,7 +3,7 @@
 [![Gitter Chat](https://badges.gitter.im/trailblazer/chat.svg)](https://gitter.im/trailblazer/chat)
 [![TRB Newsletter](https://img.shields.io/badge/TRB-newsletter-lightgrey.svg)](http://trailblazer.to/newsletter/)
 [![Build
-Status](https://travis-ci.org/apotonick/reform-rails.svg)](https://travis-ci.org/apotonick/reform-rails)
+Status](https://travis-ci.org/trailblazer/reform-rails.svg)](https://travis-ci.org/trailblazer/reform-rails)
 [![Gem Version](https://badge.fury.io/rb/reform-rails.svg)](http://badge.fury.io/rb/reform-rails)
 
 _Rails-support for Reform_.
@@ -14,7 +14,7 @@ Simply don't include this gem if you don't want to use the conventional Reform/R
 
 ## Documentation
 
-The [full documentation](http://trailblazer.to/gems/reform/#reform-rails) can be found on the Trailblazer page.
+The [full documentation](http://trailblazer.to/gems/reform/rails.html) can be found on the Trailblazer page.
 
 ## Installation
 
@@ -25,6 +25,15 @@ gem 'reform-rails'
 ```
 
 Reform-rails needs Reform >= 2.2.
+
+## Contributing
+
+By default your tests will run against rails 4.2.0.
+Please ensure that you test your changes against all supported ruby and rails versions (see .travis.yml)
+
+You can run tests for a specific version of rails by running the following:
+
+`export RAILS_VERSION=4.2.0; bundle update; bundle exec rake test`
 
 ## License
 
