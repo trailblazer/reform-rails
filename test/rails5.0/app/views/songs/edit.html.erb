@@ -1,6 +1,6 @@
 <%= form_for @form do |f| %>
 <%= f.text_field :title %>
-<%= fields_for :composer do |c|  %>
+<%= fields_for :artist do |c|  %>
   <%= c.text_field :name %>
 <% end %>
 <% end %>

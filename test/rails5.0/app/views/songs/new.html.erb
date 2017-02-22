@@ -1,0 +1,6 @@
+<%= simple_form_for @form do |f| %>
+<%= f.input :title %>
+<%= simple_fields_for :artist, @form.artist do |c|  %>
+  <%= c.input :name %>
+<% end %>
+<% end %>
