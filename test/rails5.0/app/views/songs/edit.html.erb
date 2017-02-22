@@ -1,0 +1,10 @@
+<%= form_for @form do |f| %>
+<%= f.text_field :title %>
+<%= fields_for :composer do |c|  %>
+  <%= c.text_field :name %>
+<% end %>
+<% end %>
+
+<% @form.errors.full_messages.each do |msg| %>
+<%= msg %>
+<% end %>
