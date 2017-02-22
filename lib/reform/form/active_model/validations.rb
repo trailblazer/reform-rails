@@ -41,6 +41,11 @@ module Reform
         send(name)
       end
 
+      def initialize(*)
+        super
+        @amv_errors = ActiveModel::Errors.new(self)
+      end
+
       # Problem with this method is, it's being used in two completely different contexts: Once to add errors in validations,
       # and second to expose errors for presentation.
       def errors(*args)
