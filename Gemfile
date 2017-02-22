@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem "reform", github: "trailblazer/reform"
+# gem "reform", path: "../reform"
 
 rails_version = ENV['RAILS_VERSION'] || '4.2'
 
