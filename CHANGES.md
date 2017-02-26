@@ -1,17 +1,12 @@
-# master
+# 0.2.0
 
+* Needs Reform >= 2.3.0.
 * make the inclusion of ActiveModel form builder modules optional when using dry-validation. This can be controlled via `config.reform.enable_active_model_builder_methods = true`.
-
 * delegate `validates_each` method and allow it to be called outside a validation block.
-
 * add `case_sensitive` option to Reform Uniqueness validation. Defaults to true.
-
 * fix bug in uniqueness validation where form has different attribute name to column
-
 * improve handling of persisted records in uniqueness validator
-
 * remove params.merge! as it's deprecated in rails 5
-
 * update to support reform 2.3, the new API means that `errors.add` is delegated to ActiveModel::Errors so we have support for rails 5 :descriptions without having to do anything !Yey!
 
 # 0.1.7 (0.1.6 Yanked)
