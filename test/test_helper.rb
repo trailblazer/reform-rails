@@ -2,7 +2,20 @@ ENV["RAILS_ENV"] = "test"
 
 require 'minitest/autorun'
 
-require "rails-app/config/environment"
+# Load the rails application
+require "active_model/railtie"
+
+Bundler.require
+
+module Dummy
+  class Application < Rails::Application
+    config.eager_load = false
+  end
+end
+
+# Initialize the rails application
+Dummy::Application.initialize!
+
 require 'reform/rails'
 
 require "reform/form/active_model/form_builder_methods"
