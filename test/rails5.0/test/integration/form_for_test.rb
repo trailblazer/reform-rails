@@ -1,8 +1,8 @@
 require "test_helper"
 
-class SongsControllerTest < ActionController::TestCase
-  test "edit" do
-    get :edit, id: 1
+class SongsControllerTest < ActionDispatch::IntegrationTest
+  test 'edit' do
+    get edit_song_path(1)
     response.body.must_equal %{<form class="edit_song" id="edit_song_1" action="/songs/1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" />
 <input type="text" value="Murder" name="song[title]" id="song_title" />
 
@@ -11,8 +11,8 @@ class SongsControllerTest < ActionController::TestCase
 }
   end
 
-  test "update" do
-    post :update, id: 1, params: { song: { title: "", artist_attributes: { name: "" } } }
+  test 'update' do
+    put song_path(1), params: { song: { title: "", artist_attributes: { name: "" } } }
     response.body.must_equal %{<form class="edit_song" id="edit_song_1" action="/songs/1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" />
 <input type="text" value="" name="song[title]" id="song_title" />
 

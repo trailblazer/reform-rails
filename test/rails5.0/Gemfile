@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '5.0.0'
 
-gem 'sass-rails'
-gem "sprockets"
+# gem 'sass-rails'
+# gem "sprockets"
 
 group :development, :test do
   gem "minitest-spec-rails"
