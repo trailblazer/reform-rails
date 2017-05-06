@@ -50,6 +50,29 @@ class ActiveRecordTest < MiniTest::Spec
     assert_empty form.errors[:title]
   end
 
+  class OnlySongForm < Reform::Form
+    feature Reform::Form::ActiveModel::Validations
+
+    include Reform::Form::ActiveRecord
+    model :song
+
+    property :title
+
+    validates_uniqueness_of :title
+  end
+
+  let(:existing_song)   { Song.create(:title => "Damnation") }
+  let(:only_song_form)    { OnlySongForm.new(Song.new(:title => "Damnation")) }
+
+  it { form.class.i18n_scope.must_equal :activerecord }
+
+  it 'has errors creating another song with the title already exists' do
+    assert existing_song.persisted?
+    assert_equal existing_song.title, "Damnation"
+    only_song_form.validate("title" => "Damnation")
+    assert form.errors[:title].present?
+  end
+
   it "has errors on title when title is taken for the same artist and album" do
     skip "replace ActiveModel::Validations with our own, working and reusable gem."
     Song.create(title: "Windowpane", artist_id: artist.id, album_id: album.id)

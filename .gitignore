@@ -8,5 +8,5 @@
 /spec/reports/
 /tmp/
 *.gem
-
+/.idea
 *.log
