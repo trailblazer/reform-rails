@@ -23,7 +23,6 @@ class FormTest < Minitest::Spec
   end
   it do
     form = PopulatedAlbumForm.new(Album.new)
-    form.validate({ :hit => { :length => "54" }})
     form.validate({ :hit => { :length => "54" }}).must_equal(false)
     form.errors.messages.must_equal({ :"hit.length" => ["must be greater than 55"] })
     form.validate({ :hit => { :length => "57" }}).must_equal(true)
