@@ -58,8 +58,9 @@ module Reform
         super.tap do
           # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
           all_errors = @result.instance_variable_get(:@results)
+          nested_errors = @result.instance_variable_get(:@failure)
 
-          @result = Reform::Contract::Result.new(all_errors)
+          @result = Reform::Contract::Result.new(all_errors, [nested_errors].compact)
 
           @amv_errors = Result::ResultErrors.new(@result, self, @result.success?)
         end
