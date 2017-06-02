@@ -4,6 +4,7 @@ require 'minitest/autorun'
 
 # Load the rails application
 require "active_model/railtie"
+require "bundler/setup"
 
 Bundler.require
 

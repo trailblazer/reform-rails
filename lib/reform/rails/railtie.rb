@@ -48,6 +48,7 @@ module Reform
         end
 
         require "reform/form/dry"
+        require "reform/form/dry/validations"
 
         Reform::Form.class_eval do
           if enable_am
