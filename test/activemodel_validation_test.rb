@@ -166,6 +166,10 @@ class ActiveModelValidationTest < MiniTest::Spec
     it do
       form.validate({}).must_equal false
       form.errors.messages.inspect.must_equal "{:email=>[\"can't be blank\"], :username=>[\"can't be blank\"]}"
+
+      if self.class.rails5?
+        form.errors.details.inspect.must_equal "{:email=>[{:error=>:blank}], :username=>[{:error=>:blank}]}"
+      end
     end
   end
 
@@ -204,6 +208,10 @@ class ActiveModelValidationTest < MiniTest::Spec
     it do
       form.validate({email: 9}).must_equal false
       form.errors.messages.inspect.must_equal "{:username=>[\"can't be blank\"]}"
+      if self.class.rails5?
+        form.errors.details.inspect.must_equal "{:username=>[{:error=>:blank}]}"
+      end
+
     end
   end
 
@@ -247,12 +255,18 @@ class ActiveModelValidationTest < MiniTest::Spec
     it "is invalid" do
       form.validate({username: "yo", email: nil}).must_equal false
       form.errors.messages.must_equal({:email=>["can't be blank", "fill it out!"], :username=>["not ok", "must be yo"]})
+      if self.class.rails5?
+        form.errors.details.inspect.must_equal "{:username=>[{:error=>\"not ok\"}, {:error=>\"must be yo\"}], :email=>[{:error=>:blank}, {:error=>\"fill it out!\"}]}"
+      end
     end
 
     # valid.
     it "is valid" do
       form.validate({ username: "not yo", email: "bla" }).must_equal true
       form.errors.messages.must_equal({:username=>[], :email=>[]})
+      if self.class.rails5?
+        form.errors.details.inspect.must_equal "{}"
+      end
       form.errors.empty?.must_equal true
     end
   end
@@ -264,12 +278,12 @@ class ActiveModelValidationTest < MiniTest::Spec
     end
 
     it do
-      skip('fails in rails 5') if self.class.rails5_0?
+      skip('fails in rails 5') if self.class.rails5?
       AcceptanceForm.new(nil).validate(accept: "0").must_equal false
     end
 
     it do
-      skip('fails in rails 5') if self.class.rails5_0?
+      skip('fails in rails 5') if self.class.rails5?
       AcceptanceForm.new(nil).validate(accept: "1").must_equal true
     end
   end

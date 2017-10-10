@@ -61,7 +61,7 @@ module Reform
 
           @result = Reform::Contract::Result.new(all_errors)
 
-          @amv_errors = Result::ResultErrors.new(@result, self, @result.success?)
+          @amv_errors = Result::ResultErrors.new(@result, self, @result.success?, @amv_errors)
         end
         @result
       end
@@ -109,9 +109,10 @@ module Reform
         end
 
         class ResultErrors < ::Reform::Contract::Result::Errors # to expose via #errors. i hate it.
-          def initialize(a, b, success)
+          def initialize(a, b, success, amv_errors)
             super(a, b)
             @success = success
+            @amv_errors = amv_errors
           end
 
           def empty?
@@ -125,6 +126,10 @@ module Reform
           # rails expects this to return a stringified hash of the messages
           def to_s
             messages.to_s
+          end
+
+          def method_missing(m, *args, &block)
+            @amv_errors.send(m, *args, &block) # send all methods to the AMV errors, even privates.
           end
         end
       end

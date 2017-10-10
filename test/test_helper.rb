@@ -42,8 +42,8 @@ ActiveRecord::Base.establish_connection(
 )
 
 Minitest::Spec.class_eval do
-  def self.rails5_0?
-    ::ActiveModel::VERSION::MAJOR == 5 and ::ActiveModel::VERSION::MINOR == 0
+  def self.rails5?
+    ::ActiveModel::VERSION::MAJOR == 5
   end
 
   def self.rails_greater_4_1?
