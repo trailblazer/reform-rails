@@ -1,3 +1,3 @@
-class Song < ActiveRecord::Base
+class Song < ApplicationRecord
   belongs_to :artist
 end

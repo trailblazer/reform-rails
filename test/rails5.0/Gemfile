@@ -13,5 +13,6 @@ end
 gem "reform",      path: "../../../reform"
 gem "reform-rails", path: "../../../reform-rails"# ">= 4.1.0"
 gem "simple_form"
+gem "dry-types"
 
 gem "sqlite3"

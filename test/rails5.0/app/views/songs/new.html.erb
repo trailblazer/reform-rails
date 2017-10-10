@@ -1,5 +1,7 @@
 <%= simple_form_for @form do |f| %>
+<%= f.error_notification %>
 <%= f.input :title %>
+<%= f.input :release_date %>
 <%= simple_fields_for :artist, @form.artist do |c|  %>
   <%= c.input :name %>
 <% end %>
