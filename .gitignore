@@ -10,4 +10,3 @@
 *.gem
 
 *.log
-/database.sqlite3
