@@ -12,4 +12,20 @@ class FormTest < Minitest::Spec
     form.validate({})
     form.errors.messages.must_equal({:title=>["can't be blank"], :genre=>["can't be blank"], :band=>["can't be blank"]})
   end
+
+  Album = Struct.new(:hit)
+  Song = Struct.new(:length)
+  class PopulatedAlbumForm < Reform::Form
+    property :hit, populate_if_empty: Song do
+      property :length
+      validates :length, numericality: { greater_than: 55 }
+    end
+  end
+  it do
+    form = PopulatedAlbumForm.new(Album.new)
+    form.validate({ :hit => { :length => "54" }}).must_equal(false)
+    form.errors.messages.must_equal({ :"hit.length" => ["must be greater than 55"] })
+    form.validate({ :hit => { :length => "57" }}).must_equal(true)
+    form.errors.messages.must_equal({})
+  end
 end
