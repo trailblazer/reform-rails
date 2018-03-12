@@ -4,10 +4,16 @@ class ModelValidationsTest < MiniTest::Spec
 
   class Album
     include ActiveModel::Validations
-    attr_accessor :title, :artist, :other_attribute
+    attr_accessor :title, :artist, :other_attribute, :tracks
 
     validates :title, :artist, presence: true
     validates :other_attribute, presence: true
+  end
+
+  class Track
+    include ActiveModel::Validations
+
+    attr_accessor :title
   end
 
   class AlbumRating
@@ -38,6 +44,17 @@ class ModelValidationsTest < MiniTest::Spec
     property :rating, on: :album_rating
 
     copy_validations_from album: Album, album_rating: AlbumRating
+  end
+
+  class AlbumTracksForm < Reform::Form
+    # property :title
+    # validates :title, presence: true
+
+    collection :tracks, populate_if_empty: Track do
+      property :title
+
+      validates :title, presence: true
+    end
   end
 
   let(:album) { Album.new }
@@ -79,4 +96,17 @@ class ModelValidationsTest < MiniTest::Spec
 
   end
 
+  describe 'validate correct position on collection' do
+    let(:album) { Album.new }
+    let(:track1) { Track.new }
+    let(:track2) { Track.new }
+
+    let(:nested_form) { AlbumTracksForm.new(album) }
+
+    it 'is not valid when title is not present' do
+      album.tracks = [track1, track2]
+      nested_form.validate(artist_name: 'test', title: nil, tracks: [{title: 'Track 1'}, {title: nil}]).must_equal false
+      nested_form.errors[:'tracks.title'][1].must_equal ['can\'t be blank']
+    end
+  end
 end
