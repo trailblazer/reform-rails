@@ -6,7 +6,6 @@ module Reform
       initializer "reform.form_extensions", after: :load_config_initializers do
         validations = config.reform.validations || :active_model
 
-        require "reform"
         require "reform/form/multi_parameter_attributes"
 
         if validations == :active_model
