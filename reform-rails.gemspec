@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Automatically load and include all common Rails form features.}
   spec.description   = %q{Automatically load and include all common Reform features for a standard Rails environment.}
   spec.homepage      = "https://github.com/trailblazer/reform-rails"
-  spec.license       = "MIT"
+  spec.license       = "LGPL-3.0"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
