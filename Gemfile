@@ -1,28 +1,33 @@
-source 'https://rubygems.org'
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
+source "https://rubygems.org"
 gemspec
 
-if ENV['USE_LOCAL_GEMS']
-  gem "reform", path: "../reform"
-else
-  gem "reform", github: "trailblazer/reform"
+case ENV["GEMS_SOURCE"]
+  when "local"
+    gem "reform", path: "../reform"
+  when "github"
+    gem "reform", github: "trailblazer/reform"
 end
 
-rails_version = ENV.fetch('RAILS_VERSION', '5.2.0')
+rails_version = ENV.fetch("RAILS_VERSION", "5.2.0")
 
 # bored of wrestling with rails...
-if rails_version == '4.0'
-  gem 'mongoid', '~> 4'
+if rails_version == "4.0"
+  gem "mongoid", "~> 4"
 else
-  gem 'mongoid', '< 7.0'
+  gem "mongoid", "< 7.0"
 end
 
-gem "railties", "~> #{rails_version}"
 gem "activerecord", "~> #{rails_version}"
+gem "railties", "~> #{rails_version}"
 gem "sqlite3"
 puts "Rails version #{rails_version}"
-if rails_version == '5.0.0'
-  gem 'minitest', '5.10.3'
+if rails_version == "5.0.0"
+  gem "minitest", "5.10.3"
 else
   gem "minitest"
 end
-
