@@ -289,32 +289,32 @@ class ActiveModelValidationTest < MiniTest::Spec
   end
 
   describe "validates_each" do
-   class ValidateEachForm < Reform::Form
-     include Reform::Form::ActiveModel::Validations
+    class ValidateEachForm < Reform::Form
+      include Reform::Form::ActiveModel::Validations
 
-     property :songs
+      property :songs
 
-     validation do
-       validates_each :songs do |record, attr, value|
-         record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
-       end
-     end
-   end
+      validation do
+        validates_each :songs do |record, attr, value|
+          record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+        end
+      end
+    end
 
-   class ValidateEachForm2 < Reform::Form
-     include Reform::Form::ActiveModel::Validations
+    class ValidateEachForm2 < Reform::Form
+      include Reform::Form::ActiveModel::Validations
 
-     property :songs
+      property :songs
 
-     validates_each :songs do |record, attr, value|
-       record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
-     end
-   end
+      validates_each :songs do |record, attr, value|
+        record.errors.add attr, "is invalid" unless ['red','green','blue'].include?(value)
+      end
+    end
 
-   it { ValidateEachForm.new(Album.new).validate(songs: "orange").must_equal false }
-   it { ValidateEachForm.new(Album.new).validate(songs: "red").must_equal true }
+    it { ValidateEachForm.new(Album.new).validate(songs: "orange").must_equal false }
+    it { ValidateEachForm.new(Album.new).validate(songs: "red").must_equal true }
 
-   it { ValidateEachForm2.new(Album.new).validate(songs: "orange").must_equal false }
-   it { ValidateEachForm2.new(Album.new).validate(songs: "red").must_equal true }
- end
+    it { ValidateEachForm2.new(Album.new).validate(songs: "orange").must_equal false }
+    it { ValidateEachForm2.new(Album.new).validate(songs: "red").must_equal true }
+  end
 end
