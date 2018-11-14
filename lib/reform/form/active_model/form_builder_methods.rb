@@ -3,6 +3,10 @@ module Reform::Form::ActiveModel
   # in Rails. It will further try to translate Rails' suboptimal songs_attributes weirdness
   # back to normal `songs: ` naming in +#valiate+.
   module FormBuilderMethods
+    if ActiveModel.gem_version >= Gem::Version.new("4.0")
+      include ActiveModel::ForbiddenAttributesProtection
+    end
+
     def self.included(base)
       base.extend ClassMethods # ::model_name
     end
@@ -30,6 +34,9 @@ module Reform::Form::ActiveModel
         rename_nested_param_for!(params, dfn)
       end
 
+      if respond_to?(:sanitize_for_mass_assignment, true)
+        params = sanitize_for_mass_assignment(params)
+      end
       super(params)
     end
 

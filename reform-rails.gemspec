@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "reform", ">= 2.3.0.rc1", "< 3.0.0"
   spec.add_dependency "activemodel", ">= 3.2"
+  spec.add_development_dependency "actionpack",  ">= 3.2"
 end

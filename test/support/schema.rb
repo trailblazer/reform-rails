@@ -19,4 +19,9 @@ ActiveRecord::Schema.define(version: 1) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "users" do |t|
+    t.string   "name"
+    t.boolean  "is_superuser"
+  end
 end
