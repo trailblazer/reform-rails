@@ -56,9 +56,9 @@ module Reform::Form::ActiveModel
         validator = @validations.new(form)
         validator.valid?
 
-        validator.errors.each do |name, error| # TODO: handle with proper merge, or something. validator.errors is ALWAYS AM::Errors.
-          errors.add(name, error)
-        end
+        # TODO: Add tests for this
+        errors.details.merge!(validator.errors.details) { |_key, v1, v2| v1 | v2 }
+        errors.messages.merge!(validator.errors.messages) { |_key, v1, v2| v1 | v2 }
       end
     end
 
