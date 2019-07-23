@@ -6,13 +6,8 @@ end
 source "https://rubygems.org"
 gemspec
 
-case ENV["GEMS_SOURCE"]
-  when "local"
-    gem "reform", path: "../reform"
-  when "github"
-    # gem "reform", github: "trailblazer/reform"
-    gem 'reform', git: 'https://github.com/samstickland/reform', branch: '2.2.5'
-end
+# gem "reform", github: "trailblazer/reform"
+gem 'reform', git: 'https://github.com/samstickland/reform', branch: '2.2.5'
 
 rails_version = ENV.fetch("RAILS_VERSION", "5.2.0")
 
