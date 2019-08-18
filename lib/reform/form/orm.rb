@@ -19,7 +19,10 @@ module Reform::Form::ORM
 
       @klass = record.class # this is usually done in the super-sucky #setup method.
       super(record).tap do |res|
-        form.errors.add(property, record.errors.first.last) if record.errors.present?
+        if record.errors[property].present?
+          # TODO: Confirm approach and add tests for this.
+          form.errors.add property, :taken
+        end
       end
     end
   end
