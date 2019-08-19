@@ -10,6 +10,9 @@
 * update to support reform 2.3, the new API means that `errors.add` is delegated to ActiveModel::Errors so we have support for rails 5 :descriptions without having to do anything !Yey!
 * Fix nested form validation (#53)
 
+# 0.1.8 
+* Drop support to mongoid < 4.
+
 # 0.1.7 (0.1.6 Yanked)
 
 * Fix a bug where requiring `form/active_model/validations` in a non-Rails environment wouldn't load all necessary files.

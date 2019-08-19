@@ -1,3 +1,5 @@
+gem 'mongoid', ">= 4.0"
+
 module Reform::Form::Mongoid
   def self.included(base)
     base.class_eval do
@@ -18,20 +20,7 @@ module Reform::Form::Mongoid
     end
   end
 
-
-  def self.mongoid_namespace
-    if mongoid_is_4_or_more?
-      'Validatable'
-    else
-      'Validations'
-    end
-  end
-
-  def self.mongoid_is_4_or_more?
-    Mongoid::VERSION.split('.').first.to_i >= 4
-  end
-
-  UniquenessValidator = Class.new("::Mongoid::#{mongoid_namespace}::UniquenessValidator".constantize) do
+  UniquenessValidator = Class.new("::Mongoid::Validatable::UniquenessValidator".constantize) do
     include Reform::Form::ORM::UniquenessValidator
   end
 end
