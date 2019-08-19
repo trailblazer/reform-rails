@@ -6,6 +6,8 @@ end
 source "https://rubygems.org"
 gemspec
 
+gem 'pry-byebug'
+
 case ENV["GEMS_SOURCE"]
   when "local"
     gem "reform", path: "../reform"
@@ -16,18 +18,17 @@ end
 rails_version = ENV.fetch("RAILS_VERSION", "5.2.0")
 
 # bored of wrestling with rails...
-if rails_version == "4.0"
+if rails_version.include? "4.0"
   gem "mongoid", "~> 4"
 else
-  gem "mongoid", "< 7.0"
+  gem("mongoid", "< 7.0") unless rails_version.include?('6.0')
 end
 
 gem "activerecord", "~> #{rails_version}"
 gem "railties", "~> #{rails_version}"
-gem "sqlite3"
-puts "Rails version #{rails_version}"
-if rails_version == "5.0.0"
-  gem "minitest", "5.10.3"
+if rails_version.include?('6.0')
+  gem "sqlite3", "~> 1.4"
 else
-  gem "minitest"
+  gem "sqlite3", "~> 1.3", "< 1.4"
 end
+puts "Rails version #{rails_version}"

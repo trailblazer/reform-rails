@@ -36,7 +36,7 @@ load "#{File.dirname(__FILE__)}/support/schema.rb"
 
 Minitest::Spec.class_eval do
   def self.rails5?
-    ::ActiveModel::VERSION::MAJOR == 5
+    ::ActiveModel::VERSION::MAJOR.in? [5,6]
   end
 
   def self.rails_greater_4_1?

@@ -1,4 +1,7 @@
 require 'test_helper'
+
+return unless defined?(::Mongoid)
+
 Mongoid.configure do |config|
   config.connect_to("reform-mongoid-test")
 end
