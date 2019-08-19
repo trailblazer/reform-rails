@@ -54,7 +54,7 @@ module Reform::Form::ActiveModel
     end
 
     def validates_each(*args, &block)
-      validation(name: :default, inherit: true) { validates_each *args, &block }
+      validation(:default, inherit: true) { validates_each *args, &block }
     end
 
     # Set a model name for this form if the infered is wrong.

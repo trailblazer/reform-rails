@@ -17,6 +17,21 @@ end
 # Initialize the rails application
 Dummy::Application.initialize!
 
+require 'reform/rails'
+
+require "reform/form/active_model/form_builder_methods"
+require "reform/form/active_model"
+
+require "reform/form/active_model/model_validations"
+require "reform/form/active_model/validations"
+Reform::Contract.class_eval do
+  feature Reform::Form::ActiveModel::Validations
+end
+# FIXME!
+Reform::Form.class_eval do
+  feature Reform::Form::ActiveModel::Validations
+end
+
 require 'active_record'
 class Artist < ActiveRecord::Base
 end
@@ -35,8 +50,8 @@ ActiveRecord::Schema.verbose = false
 load "#{File.dirname(__FILE__)}/support/schema.rb"
 
 Minitest::Spec.class_eval do
-  def self.rails5?
-    ::ActiveModel::VERSION::MAJOR == 5
+  def self.rails5_0?
+    ::ActiveModel::VERSION::MAJOR == 5 and ::ActiveModel::VERSION::MINOR == 0
   end
 
   def self.rails_greater_4_1?
@@ -45,6 +60,7 @@ Minitest::Spec.class_eval do
 end
 
 I18n.load_path << Dir['test/fixtures/locales/*.yml']
+I18n.default_locale = :en
 I18n.backend.load_translations
 
 class BaseTest < MiniTest::Spec
