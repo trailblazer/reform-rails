@@ -11,7 +11,6 @@ class AMValidationWithFormatTest < MiniTest::Spec
   Song = Struct.new(:format)
 
   it do
-    skip("FIXME!! current code only works on ruby 2.0.0 dunnoo why...")
     SongForm.new(Song.new).validate({ format: 12 }).must_equal true
   end
 end
