@@ -20,6 +20,8 @@ class FormBuilderCompatTest < BaseTest
 
     class LabelForm < Reform::Form
       property :name
+
+      validates :name, presence: true
     end
 
     property :label, form: LabelForm
@@ -131,8 +133,18 @@ class FormBuilderCompatTest < BaseTest
   end
 
   it "returns flat errors hash" do
-    form.validate("artist_attributes" => {"name" => ""},
-      "songs_attributes" => {"0" => {"title" => ""}})
-    form.errors.messages.must_equal(:"artist.name" => ["can't be blank"], :"songs.title" => ["can't be blank"])
+    form.validate(
+      "artist_attributes" => {"name" => ""},
+      "songs_attributes" => {"0" => {"title" => ""}}
+    ).must_equal false
+    form.errors.messages.must_equal(:"artist.name" => ["can't be blank"], :"songs.title" => ["can't be blank"], :"label.name"=>["can't be blank"])
+  end
+
+  it 'fails when only nested form fails' do
+    form.validate(
+      "artist_attributes" => {"name" => "Ketama 126"},
+      "songs_attributes" => {"0" => {"title" => "66 cl"}}
+    ).must_equal false
+    form.errors.messages.must_equal(:"label.name"=>["can't be blank"])
   end
 end
