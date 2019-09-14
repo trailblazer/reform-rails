@@ -7,6 +7,7 @@ source "https://rubygems.org"
 gemspec
 
 gem 'pry-byebug'
+gem "minitest-line"
 
 case ENV["GEMS_SOURCE"]
   when "local"

@@ -269,8 +269,21 @@ class ActiveModelValidationTest < MiniTest::Spec
       end
       form.errors.empty?.must_equal true
     end
-  end
 
+    it 'able to add errors' do
+      form.validate(username: "yo", email: nil).must_equal false
+      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"])
+      # add a new custom error
+      form.errors.add(:policy, "error_text")
+      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
+      # does not duplicate errors
+      form.errors.add(:email, "fill it out!")
+      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
+      # merge existing errors
+      form.errors.add(:policy, "another error")
+      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+    end
+  end
 
   describe "validates: :acceptance" do
     class AcceptanceForm < Reform::Form

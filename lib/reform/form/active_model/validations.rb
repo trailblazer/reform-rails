@@ -129,6 +129,16 @@ module Reform
             messages.to_s
           end
 
+          def add(key, error_text)
+            # use rails magic to get the correct error_text and make sure we still update details and fields
+            text = @amv_errors.add(key, error_text)
+
+            # but since messages method is actually already defined in `Reform::Contract::Result::Errors
+            # we need to update the @dotted_errors instance variable to add or merge a new error
+            @dotted_errors.key?(key) ? @dotted_errors[key] |= text : @dotted_errors[key] = text
+            instance_variable_set(:@dotted_errors, @dotted_errors)
+          end
+
           def method_missing(m, *args, &block)
             @amv_errors.send(m, *args, &block) # send all methods to the AMV errors, even privates.
           end
