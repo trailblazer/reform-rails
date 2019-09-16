@@ -9,5 +9,5 @@
 /tmp/
 *.gem
 *.sqlite3
-
+.byebug*
 *.log
