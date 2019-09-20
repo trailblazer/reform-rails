@@ -273,15 +273,49 @@ class ActiveModelValidationTest < MiniTest::Spec
     it 'able to add errors' do
       form.validate(username: "yo", email: nil).must_equal false
       form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"])
+      form.errors.details.must_equal(username: [{error: "not ok"}, {error: "must be yo"}], email: [{error: :blank}, {error: "fill it out!"}])
       # add a new custom error
       form.errors.add(:policy, "error_text")
       form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
+      form.errors.details.must_equal(
+        username: [{error: "not ok"}, {error: "must be yo"}],
+        email: [{error: :blank}, {error: "fill it out!"}],
+        policy: [error: "error_text"]
+      )
       # does not duplicate errors
       form.errors.add(:email, "fill it out!")
       form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
+      form.errors.details.must_equal(
+        username: [{error: "not ok"}, {error: "must be yo"}],
+        email: [{error: :blank}, {error: "fill it out!"}, {error: "fill it out!"}],
+        policy: [error: "error_text"]
+      )
       # merge existing errors
       form.errors.add(:policy, "another error")
       form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+      form.errors.details.must_equal(
+        username: [{error: "not ok"}, {error: "must be yo"}],
+        email: [{error: :blank}, {error: "fill it out!"}, {error: "fill it out!"}],
+        policy: [{error: "error_text"}, {error: "another error"}]
+      )
+      # keep added errors after valid?
+      form.valid?
+      form.errors.details.must_equal(
+        username: [{error: "not ok"}, {error: "must be yo"}],
+        email: [{error: :blank}, {error: "fill it out!"}],
+        policy: [{error: "error_text"}, {error: "another error"}]
+      )
+      form.errors.added?(:policy, "error_text").must_equal true
+      form.errors.added?(:policy, "another error").must_equal true
+      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+      # keep added errors after validate
+      form.validate(username: "username", email: "email@email.com").must_equal false
+      form.errors.messages.must_equal(policy: ["error_text", "another error"], username: [], email: [])
+      form.errors.added?(:policy, "error_text").must_equal true
+      form.errors.added?(:policy, "another error").must_equal true
+      form.errors.details.must_equal(
+        policy: [{error: "error_text"}, {error: "another error"}]
+      )
     end
   end
 
