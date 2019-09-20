@@ -52,6 +52,18 @@ module Reform
         @amv_errors
       end
 
+      def custom_errors
+        # required to keep update the ActiveModel::Errors#details used to test for
+        # added errors ActiveModel::Errors#added? and needs to be inside this block!
+        super.each do |custom_error|
+          errors = custom_error.errors
+          # CustomError build always the errors with an hash where the value is an array
+          errors.values.first.each do |value|
+            @amv_errors.add(errors.keys.first, value)
+          end
+        end
+      end
+
       def validate!(params, pointers=[])
         @amv_errors = ActiveModel::Errors.new(self)
 
@@ -133,7 +145,11 @@ module Reform
             # use rails magic to get the correct error_text and make sure we still update details and fields
             text = @amv_errors.add(key, error_text)
 
-            Reform::Contract::CustomError.new(key, text, @result.to_results)
+            # using error_text instead of text to either keep the symbol which will be
+            # magically replaced with the translate or directly the string - this is also
+            # required otherwise in the custom_errors method we will add the actual message in the
+            # ActiveModel::Errors#details which is not correct if a symbol was passed here
+            Reform::Contract::CustomError.new(key, error_text, @result.to_results)
 
             # but since messages method is actually already defined in `Reform::Contract::Result::Errors
             # we need to update the @dotted_errors instance variable to add or merge a new error
