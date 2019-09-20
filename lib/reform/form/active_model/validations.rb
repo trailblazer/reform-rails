@@ -57,7 +57,7 @@ module Reform
 
         super.tap do
           # @fran: super ugly hack thanks to the shit architecture of AMV. let's drop it in 3.0 and move on!
-          all_errors = @result.instance_variable_get(:@results)
+          all_errors = @result.to_results
           nested_errors = @result.instance_variable_get(:@failure)
 
           @result = Reform::Contract::Result.new(all_errors, [nested_errors].compact)
@@ -132,6 +132,8 @@ module Reform
           def add(key, error_text)
             # use rails magic to get the correct error_text and make sure we still update details and fields
             text = @amv_errors.add(key, error_text)
+
+            Reform::Contract::CustomError.new(key, text, @result.to_results)
 
             # but since messages method is actually already defined in `Reform::Contract::Result::Errors
             # we need to update the @dotted_errors instance variable to add or merge a new error

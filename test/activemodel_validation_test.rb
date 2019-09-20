@@ -282,6 +282,13 @@ class ActiveModelValidationTest < MiniTest::Spec
       # merge existing errors
       form.errors.add(:policy, "another error")
       form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+      # keep added errors after validate
+      form.valid?
+      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+      form.validate(username: "username", email: "email@email.com").must_equal false
+      form.errors.messages.must_equal(policy: ["error_text", "another error"], username: [], email: [])
+      form.errors.added? :policy, "error_text"
+      form.errors.added? :policy, "another error"
     end
   end
 
