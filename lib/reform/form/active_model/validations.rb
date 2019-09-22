@@ -133,7 +133,7 @@ module Reform
           end
 
           def [](k)
-            super || []
+            super(k.to_sym) || []
           end
 
           # rails expects this to return a stringified hash of the messages

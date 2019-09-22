@@ -44,6 +44,8 @@ class ActiveModelValidationTest < MiniTest::Spec
   it do
     form.validate({}).must_equal false
     form.errors.messages.inspect.must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
+    form.errors[:username].must_equal ["can't be blank"]
+    form.errors['username'].must_equal ["can't be blank"]
   end
 
   # partially invalid.
