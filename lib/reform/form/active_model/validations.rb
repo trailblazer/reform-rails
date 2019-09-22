@@ -160,6 +160,10 @@ module Reform
           def method_missing(m, *args, &block)
             @amv_errors.send(m, *args, &block) # send all methods to the AMV errors, even privates.
           end
+
+          def respond_to?(method)
+            @amv_errors.respond_to?(method) ? true : super
+          end
         end
       end
 
