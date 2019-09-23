@@ -19,7 +19,10 @@ module Reform::Form::ORM
 
       @klass = record.class # this is usually done in the super-sucky #setup method.
       super(record).tap do |res|
-        form.errors.add(property, record.errors.first.last) if record.errors.present?
+        if record.errors.present?
+          error = self.class.name.include?("Mongoid") ? record.errors.first.last : :taken
+          form.errors.add(property, error)
+        end
       end
     end
   end
