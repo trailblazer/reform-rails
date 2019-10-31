@@ -11,3 +11,4 @@
 *.sqlite3
 .byebug*
 *.log
+.rubocop-https*
