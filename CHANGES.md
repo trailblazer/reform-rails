@@ -11,6 +11,7 @@
 * Fix nested form validation (#53)
 * Errors supports symbol and string lookup (PR #77)
 * Implement respond_to that delegates to AMV errors (PR #78)
+* Drop support for activemodel before 5.0
 
 # 0.1.8
 * Drop support to mongoid < 4.

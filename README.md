@@ -24,16 +24,16 @@ Add this line to your application's Gemfile:
 gem 'reform-rails'
 ```
 
-Reform-rails needs Reform >= 2.2.
+Reform-rails needs Reform >= 2.3.
 
 ## Contributing
 
-By default your tests will run against rails 4.2.0.
+By default your tests will run against rails 6.0.1.
 Please ensure that you test your changes against all supported ruby and rails versions (see .travis.yml)
 
 You can run tests for a specific version of rails by running the following:
 
-`export RAILS_VERSION=4.2.0; bundle update; bundle exec rake test`
+`export RAILS_VERSION=5.0.0; bundle update; bundle exec rake test`
 
 ## License
 

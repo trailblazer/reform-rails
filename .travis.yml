@@ -4,9 +4,9 @@ before_install:
   - gem update --system
   - gem install bundler
 rvm:
-    - 2.4.6
     - 2.5.5
     - 2.6.3
+    - 2.7
 services:
   - mongodb
 env:
@@ -14,25 +14,5 @@ env:
   - "RAILS_VERSION=5.2.0"
   - "RAILS_VERSION=5.1.0"
   - "RAILS_VERSION=5.0.0"
-  - "RAILS_VERSION=4.2.0"
-  - "RAILS_VERSION=4.1.0"
-  - "RAILS_VERSION=4.0.0"
 matrix:
   fast_finish: true
-  exclude:
-    - rvm: 2.4.6
-      env: "RAILS_VERSION=4.0.0"
-    - rvm: 2.4.6
-      env: "RAILS_VERSION=4.1.0"
-    - rvm: 2.4.6
-      env: "RAILS_VERSION=6.0.0"
-
-    - rvm: 2.5.5
-      env: "RAILS_VERSION=4.0.0"
-    - rvm: 2.5.5
-      env: "RAILS_VERSION=4.1.0"
-
-    - rvm: 2.6.3
-      env: "RAILS_VERSION=4.0.0"
-    - rvm: 2.6.3
-      env: "RAILS_VERSION=4.1.0"
