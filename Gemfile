@@ -16,14 +16,12 @@ case ENV["GEMS_SOURCE"]
     gem "reform", github: "trailblazer/reform"
 end
 
-rails_version = ENV.fetch("RAILS_VERSION", "5.2.0")
+rails_version = ENV.fetch("RAILS_VERSION", "6.0.0")
 
 # bored of wrestling with rails...
-if rails_version.include? "4.0"
-  gem "mongoid", "~> 4"
-else
-  gem("mongoid", "< 7.0") unless rails_version.include?('6.0')
-end
+
+gem("mongoid", "< 7.0") unless rails_version.include?('6.0')
+
 
 gem "activerecord", "~> #{rails_version}"
 gem "railties", "~> #{rails_version}"
