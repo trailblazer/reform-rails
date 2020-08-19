@@ -32,11 +32,11 @@ class CustomValidationTest < MiniTest::Spec
     let(:album_form) { AlbumForm.new(album) }
 
     it 'is not valid when title is unexistant_song' do
-      album_form.validate(artist_name: 'test', title: 'unexistant_song').must_equal false
+      _(album_form.validate(artist_name: 'test', title: 'unexistant_song')).must_equal false
     end
 
     it 'is valid when title is something existant' do
-      album_form.validate(artist_name: 'test', title: 'test').must_equal true
+      _(album_form.validate(artist_name: 'test', title: 'test')).must_equal true
     end
 
   end

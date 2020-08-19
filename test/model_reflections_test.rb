@@ -42,8 +42,8 @@ class ModelReflectionTest < MiniTest::Spec
       song.extend(ColumnForAttribute)
       artist.extend(ColumnForAttribute)
 
-      form.column_for_attribute(:title).must_equal "Song: [:title]"
-      form.artist.column_for_attribute(:name).must_equal "Artist: [:name]"
+      _(form.column_for_attribute(:title)).must_equal "Song: [:title]"
+      _(form.artist.column_for_attribute(:name)).must_equal "Artist: [:name]"
     end
   end
 
@@ -57,8 +57,8 @@ class ModelReflectionTest < MiniTest::Spec
       song.extend(HasAttribute)
       artist.extend(HasAttribute)
 
-      form.has_attribute?(:title).must_equal "Song: has [:title]"
-      form.artist.has_attribute?(:name).must_equal "Artist: has [:name]"
+      _(form.has_attribute?(:title)).must_equal "Song: has [:title]"
+      _(form.artist.has_attribute?(:name)).must_equal "Artist: has [:name]"
     end
   end
 
@@ -72,8 +72,8 @@ class ModelReflectionTest < MiniTest::Spec
       song.extend(DefinedEnums)
       artist.extend(DefinedEnums)
 
-      form.defined_enums.must_include Song
-      form.artist.defined_enums.must_include Artist
+      _(form.defined_enums).must_include Song
+      _(form.artist.defined_enums).must_include Artist
     end
   end
 
@@ -85,7 +85,7 @@ class ModelReflectionTest < MiniTest::Spec
     # delegate to model class.
     it do
       reflection = form.class.reflect_on_association(:artist)
-      reflection.must_be_kind_of ActiveRecord::Reflection::AssociationReflection
+      _(reflection).must_be_kind_of ActiveRecord::Reflection::AssociationReflection
     end
   end
 
@@ -111,8 +111,8 @@ class ModelReflectionTest < MiniTest::Spec
       artist.extend(ColumnForAttribute)
 
 
-      form.column_for_attribute(:name).must_equal "Artist: [:name]"
-      form.column_for_attribute(:title).must_equal "Song: [:title]"
+      _(form.column_for_attribute(:name)).must_equal "Artist: [:name]"
+      _(form.column_for_attribute(:title)).must_equal "Song: [:title]"
     end
   end
 
@@ -127,8 +127,8 @@ class ModelReflectionTest < MiniTest::Spec
       artist.extend(DefinedEnums)
 
 
-      form.defined_enums.must_include Song
-      form.defined_enums.must_include Artist
+      _(form.defined_enums).must_include Song
+      _(form.defined_enums).must_include Artist
     end
   end
 

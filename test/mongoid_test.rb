@@ -49,7 +49,7 @@ module MongoidTests
     let(:musician) {Musician.create(:name => "Opeth")}
     let(:form) {TuneForm.new(Tune.new(:musician => Musician.new))}
 
-    # it {form.class.i18n_scope.must_equal :mongoid}
+    # it { _(form.class.i18n_scope).must_equal :mongoid }
 
     it "allows accessing the database" do
     end
@@ -69,15 +69,15 @@ module MongoidTests
 
     # nested object taken.
     it "is valid when musician name is unique" do
-      form.validate("musician" => {"name" => "Paul Gilbert"}, "title" => "The Gargoyle", "created_at" => "November 6, 1966").must_equal true
+      _(form.validate("musician" => {"name" => "Paul Gilbert"}, "title" => "The Gargoyle", "created_at" => "November 6, 1966")).must_equal true
     end
 
     it "is invalid and shows error when taken" do
       Tune.delete_all
       Musician.create(:name => "Racer X")
 
-      form.validate("musician" => {"name" => "Racer X"}, "title" => "Ghost Inside My Skin").must_equal false
-      form.errors.messages.must_equal({:"musician.name" => ["is already taken"], :created_at => ["can't be blank"]})
+      _(form.validate("musician" => {"name" => "Racer X"}, "title" => "Ghost Inside My Skin")).must_equal false
+      _(form.errors.messages).must_equal({:"musician.name" => ["is already taken"], :created_at => ["can't be blank"]})
     end
 
     it "works with Composition" do
@@ -90,7 +90,7 @@ module MongoidTests
       end.new(:musician => Musician.new)
 
       Musician.create(:name => "Bad Religion")
-      form.validate("name" => "Bad Religion").must_equal false
+      _(form.validate("name" => "Bad Religion")).must_equal false
     end
 
     describe "#save" do
@@ -99,14 +99,14 @@ module MongoidTests
         Musician.delete_all
         form.validate("musician" => {"name" => "Bad Religion"}, "title" => "Ghost Inside My Skin")
         form.save
-        Musician.where(:name => "Bad Religion").size.must_equal 1
+        _(Musician.where(:name => "Bad Religion").size).must_equal 1
       end
 
       it "doesn't call model.save when block is given" do
         Musician.delete_all
         form.validate("name" => "Bad Religion")
         form.save {}
-        Musician.where(:name => "Bad Religion").size.must_equal 0
+        _(Musician.where(:name => "Bad Religion").size).must_equal 0
       end
     end
   end
@@ -128,23 +128,23 @@ module MongoidTests
       form.validate("tunes" => [{"title" => "Straight From The Jacket"}])
 
       # form populated.
-      form.tunes.size.must_equal 1
+      _(form.tunes.size).must_equal 1
       form.tunes[0].model.must_be_kind_of Tune
 
       # model NOT populated.
-      disc.tunes.must_equal []
+      _(disc.tunes).must_equal []
 
 
       form.sync
 
       # form populated.
-      form.tunes.size.must_equal 1
+      _(form.tunes.size).must_equal 1
       form.tunes[0].model.must_be_kind_of Tune
 
       # model also populated.
       tune = disc.tunes[0]
-      disc.tunes.must_equal [tune]
-      tune.title.must_equal "Straight From The Jacket"
+      _(disc.tunes).must_equal [tune]
+      _(tune.title).must_equal "Straight From The Jacket"
 
 
       # if ActiveRecord::VERSION::STRING !~ /^3.0/
@@ -153,8 +153,8 @@ module MongoidTests
       #
       #   disc.reload
       #   tune = disc.tunes[0]
-      #   disc.tunes.must_equal [tune]
-      #   tune.title.must_equal "Straight From The Jacket"
+      #   _(disc.tunes).must_equal [tune]
+      #   _(tune.title).must_equal "Straight From The Jacket"
       # end
     end
 
@@ -168,36 +168,36 @@ module MongoidTests
         form = DiscForm.new(disc)
 
         id = disc.tunes[0].id
-        disc.tunes[0].persisted?.must_equal true
+        _(disc.tunes[0].persisted?).must_equal true
         assert id.to_s.size > 0
 
         form.validate("tunes" => [{"title" => "Part Two"}, {"title" => "Check For A Pulse"}])
 
         # form populated.
-        form.tunes.size.must_equal 2
+        _(form.tunes.size).must_equal 2
         form.tunes[0].model.must_be_kind_of Tune
         form.tunes[1].model.must_be_kind_of Tune
 
         # model NOT populated.
-        disc.tunes.must_equal [tune]
+        _(disc.tunes).must_equal [tune]
 
 
         form.sync
 
         # form populated.
-        form.tunes.size.must_equal 2
+        _(form.tunes.size).must_equal 2
 
         # model also populated.
-        disc.tunes.size.must_equal 2
+        _(disc.tunes.size).must_equal 2
 
         # corrected title
-        disc.tunes[0].title.must_equal "Part Two"
+        _(disc.tunes[0].title).must_equal "Part Two"
         # ..but same tune.
-        disc.tunes[0].id.must_equal id
+        _(disc.tunes[0].id).must_equal id
 
         # and a new tune.
-        disc.tunes[1].title.must_equal "Check For A Pulse"
-        disc.tunes[1].persisted?.must_equal true # TODO: with << strategy, this shouldn't be saved.
+        _(disc.tunes[1].title).must_equal "Check For A Pulse"
+        _(disc.tunes[1].persisted?).must_equal true # TODO: with << strategy, this shouldn't be saved.
       end
 
       describe 'using nested_models_attributes to modify nested collection' do
@@ -220,53 +220,53 @@ module MongoidTests
           form.validate('tunes_attributes' => {'0' => {'title' => 'Tango'}})
 
           # form populated.
-          form.tunes.size.must_equal 1
+          _(form.tunes.size).must_equal 1
           form.tunes[0].model.must_be_kind_of Tune
-          form.tunes[0].title.must_equal 'Tango'
+          _(form.tunes[0].title).must_equal 'Tango'
 
           # model NOT populated.
-          disc.tunes.must_equal []
+          _(disc.tunes).must_equal []
 
           form.save
 
           # nested model persisted.
           first_tune = disc.tunes[0]
-          first_tune.persisted?.must_equal true
+          _(first_tune.persisted?).must_equal true
           assert first_tune.id.to_s.size > 0
 
           # form populated.
-          form.tunes.size.must_equal 1
+          _(form.tunes.size).must_equal 1
 
           # model also populated.
-          disc.tunes.size.must_equal 1
-          disc.tunes[0].title.must_equal 'Tango'
+          _(disc.tunes.size).must_equal 1
+          _(disc.tunes[0].title).must_equal 'Tango'
 
           form = ActiveModelDiscForm.new(disc)
           form.validate('tunes_attributes' => {'0' => {'id' => first_tune.id, 'title' => 'Tango nuevo'}, '1' => {'title' => 'Waltz'}})
 
           # form populated.
-          form.tunes.size.must_equal 2
+          _(form.tunes.size).must_equal 2
           form.tunes[0].model.must_be_kind_of Tune
           form.tunes[1].model.must_be_kind_of Tune
-          form.tunes[0].title.must_equal 'Tango nuevo'
-          form.tunes[1].title.must_equal 'Waltz'
+          _(form.tunes[0].title).must_equal 'Tango nuevo'
+          _(form.tunes[1].title).must_equal 'Waltz'
 
           # model NOT populated.
-          disc.tunes.size.must_equal 1
-          disc.tunes[0].title.must_equal 'Tango'
+          _(disc.tunes.size).must_equal 1
+          _(disc.tunes[0].title).must_equal 'Tango'
 
           form.save
 
           # form populated.
-          form.tunes.size.must_equal 2
+          _(form.tunes.size).must_equal 2
 
           # model also populated.
-          disc.tunes.size.must_equal 2
-          disc.tunes[0].id.must_equal first_tune.id
-          disc.tunes[0].persisted?.must_equal true
-          disc.tunes[1].persisted?.must_equal true
-          disc.tunes[0].title.must_equal 'Tango nuevo'
-          disc.tunes[1].title.must_equal 'Waltz'
+          _(disc.tunes.size).must_equal 2
+          _(disc.tunes[0].id).must_equal first_tune.id
+          _(disc.tunes[0].persisted?).must_equal true
+          _(disc.tunes[1].persisted?).must_equal true
+          _(disc.tunes[0].title).must_equal 'Tango nuevo'
+          _(disc.tunes[1].title).must_equal 'Waltz'
         end
       end
     end

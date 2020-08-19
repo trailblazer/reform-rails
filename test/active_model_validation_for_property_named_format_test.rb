@@ -11,6 +11,6 @@ class AMValidationWithFormatTest < MiniTest::Spec
   Song = Struct.new(:format)
 
   it do
-    SongForm.new(Song.new).validate({ format: 12 }).must_equal true
+    _(SongForm.new(Song.new).validate({ format: 12 })).must_equal true
   end
 end

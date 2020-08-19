@@ -55,25 +55,25 @@ class FormBuilderCompatTest < BaseTest
       "songs_attributes"  => {"0" => {"title" => "Damnit"}},
       "band_attributes"   => {"label_attributes" => {"name" => "Epitaph", "location_attributes" => {"postcode" => 2481}}})
 
-    form.artist.name.must_equal "Blink 182"
-    form.songs.first.title.must_equal "Damnit"
-    form.band.label.name.must_equal "Epitaph"
-    form.band.label.location.postcode.must_equal 2481
+    _(form.artist.name).must_equal "Blink 182"
+    _(form.songs.first.title).must_equal "Damnit"
+    _(form.band.label.name).must_equal "Epitaph"
+    _(form.band.label.location.postcode).must_equal 2481
   end
 
   it "allows nested collection and property to be missing" do
     form.validate({})
 
-    form.artist.name.must_equal "Propagandhi"
+    _(form.artist.name).must_equal "Propagandhi"
 
-    form.songs.size.must_equal 1
-    form.songs[0].model.must_equal song # this is a weird test.
+    _(form.songs.size).must_equal 1
+    _(form.songs[0].model).must_equal song # this is a weird test.
   end
 
   it "defines _attributes= setter so Rails' FB works properly" do
-    form.must_respond_to("artist_attributes=")
-    form.must_respond_to("songs_attributes=")
-    form.must_respond_to("label_attributes=")
+    _(form).must_respond_to("artist_attributes=")
+    _(form).must_respond_to("songs_attributes=")
+    _(form).must_respond_to("label_attributes=")
   end
 
   describe "deconstructed datetime parameters" do
@@ -95,7 +95,7 @@ class FormBuilderCompatTest < BaseTest
       it "creates a date" do
         form.validate(form_attributes)
 
-        form.songs.first.release_date.must_equal Date.new(1997, 9, 27)
+        _(form.songs.first.release_date).must_equal Date.new(1997, 9, 27)
       end
     end
 
@@ -106,7 +106,7 @@ class FormBuilderCompatTest < BaseTest
       it "creates a datetime" do
         form.validate(form_attributes)
 
-        form.songs.first.release_date.must_equal DateTime.new(1997, 9, 27, 10, 11)
+        _(form.songs.first.release_date).must_equal DateTime.new(1997, 9, 27, 10, 11)
       end
     end
 
@@ -117,7 +117,7 @@ class FormBuilderCompatTest < BaseTest
         it "rejects the date" do
           form.validate(form_attributes)
 
-          form.songs.first.release_date.must_be_nil
+          _(form.songs.first.release_date).must_be_nil
         end
       end
     end
@@ -128,23 +128,23 @@ class FormBuilderCompatTest < BaseTest
       original = form_attributes.inspect
 
       form.validate(form_attributes)
-      form_attributes.inspect.must_equal original
+      _(form_attributes.inspect).must_equal original
     end
   end
 
   it "returns flat errors hash" do
-    form.validate(
+    _(form.validate(
       "artist_attributes" => {"name" => ""},
       "songs_attributes" => {"0" => {"title" => ""}}
-    ).must_equal false
-    form.errors.messages.must_equal(:"artist.name" => ["can't be blank"], :"songs.title" => ["can't be blank"], :"label.name"=>["can't be blank"])
+    )).must_equal false
+    _(form.errors.messages).must_equal(:"artist.name" => ["can't be blank"], :"songs.title" => ["can't be blank"], :"label.name"=>["can't be blank"])
   end
 
   it 'fails when only nested form fails' do
-    form.validate(
+    _(form.validate(
       "artist_attributes" => {"name" => "Ketama 126"},
       "songs_attributes" => {"0" => {"title" => "66 cl"}}
-    ).must_equal false
-    form.errors.messages.must_equal(:"label.name"=>["can't be blank"])
+    )).must_equal false
+    _(form.errors.messages).must_equal(:"label.name"=>["can't be blank"])
   end
 end

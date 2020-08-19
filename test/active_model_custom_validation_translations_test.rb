@@ -37,19 +37,19 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
     it 'translates the error message when custom validation is used with block' do
       form = SongForm::WithBlock.new(Song.new)
       form.validate({})
-      form.errors[:title].must_include "can't be blank"
+      _(form.errors[:title]).must_include "can't be blank"
     end
 
     it 'translates the error message when custom validation is used with lambda' do
       form = SongForm::WithLambda.new(Song.new)
       form.validate({})
-      form.errors[:title].must_include "can't be blank"
+      _(form.errors[:title]).must_include "can't be blank"
     end
 
     it 'translates the error message when custom validation is used with method' do
       form = SongForm::WithMethod.new(Song.new)
       form.validate({})
-      form.errors[:title].must_include "can't be blank"
+      _(form.errors[:title]).must_include "can't be blank"
     end
   end
 
@@ -57,19 +57,19 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
     it 'translates the error message when custom validation is used with block' do
       form = SongForm::WithBlock.new(Song.new)
       form.validate({})
-      form.errors[:title].must_include "Custom Error Message"
+      _(form.errors[:title]).must_include "Custom Error Message"
     end
 
     it 'translates the error message when custom validation is used with lambda' do
       form = SongForm::WithLambda.new(Song.new)
       form.validate({})
-      form.errors[:title].must_include "Custom Error Message"
+      _(form.errors[:title]).must_include "Custom Error Message"
     end
 
     it 'translates the error message when custom validation is used with method' do
       form = SongForm::WithMethod.new(Song.new)
       form.validate({})
-      form.errors[:title].must_include "Custom Error Message"
+      _(form.errors[:title]).must_include "Custom Error Message"
     end
   end
 end

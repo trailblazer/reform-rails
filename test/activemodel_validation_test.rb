@@ -36,34 +36,34 @@ class ActiveModelValidationTest < MiniTest::Spec
 
   # valid.
   it do
-    form.validate({username: "Helloween", email: "yep", password: "9", confirm_password:"dd"}).must_equal true
-    form.errors.messages.inspect.must_equal "{}"
+    _(form.validate({username: "Helloween", email: "yep", password: "9", confirm_password:"dd"})).must_equal true
+    _(form.errors.messages.inspect).must_equal "{}"
   end
 
   # invalid.
   it do
-    form.validate({}).must_equal false
-    form.errors.messages.inspect.must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
-    form.errors[:username].must_equal ["can't be blank"]
-    form.errors['username'].must_equal ["can't be blank"]
+    _(form.validate({})).must_equal false
+    _(form.errors.messages.inspect).must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
+    _(form.errors[:username]).must_equal ["can't be blank"]
+    _(form.errors['username']).must_equal ["can't be blank"]
   end
 
   # partially invalid.
   # 2nd group fails.
   let (:character) { self.class.rails_greater_4_1? ? :character : :characters}
   it do
-    form.validate(username: "Helloween", email: "yo").must_equal false
-    form.errors.messages.inspect.must_equal "{:email=>[\"is the wrong length (should be 3 characters)\"], :confirm_password=>[\"is the wrong length (should be 2 characters)\"], :password=>[\"can't be blank\", \"is the wrong length (should be 1 #{character})\"]}"
+    _(form.validate(username: "Helloween", email: "yo")).must_equal false
+    _(form.errors.messages.inspect).must_equal "{:email=>[\"is the wrong length (should be 3 characters)\"], :confirm_password=>[\"is the wrong length (should be 2 characters)\"], :password=>[\"can't be blank\", \"is the wrong length (should be 1 #{character})\"]}"
   end
   # 3rd group fails.
   it do
-    form.validate(username: "Helloween", email: "yo!").must_equal false
-    form.errors.messages.inspect.must_equal"{:confirm_password=>[\"is the wrong length (should be 2 characters)\"], :password=>[\"can't be blank\", \"is the wrong length (should be 1 #{character})\"]}"
+    _(form.validate(username: "Helloween", email: "yo!")).must_equal false
+    _(form.errors.messages.inspect).must_equal"{:confirm_password=>[\"is the wrong length (should be 2 characters)\"], :password=>[\"can't be blank\", \"is the wrong length (should be 1 #{character})\"]}"
   end
   # 4th group with after: fails.
   it do
-    form.validate(username: "Helloween", email: "yo!", password: "1", confirm_password: "9").must_equal false
-    form.errors.messages.inspect.must_equal "{:confirm_password=>[\"is the wrong length (should be 2 characters)\"]}"
+    _(form.validate(username: "Helloween", email: "yo!", password: "1", confirm_password: "9")).must_equal false
+    _(form.errors.messages.inspect).must_equal "{:confirm_password=>[\"is the wrong length (should be 2 characters)\"]}"
   end
 
 
@@ -91,21 +91,21 @@ class ActiveModelValidationTest < MiniTest::Spec
 
     # valid.
     it do
-      form.validate({username: "Helloween", email: "yep", password: "9", confirm_password: 9}).must_equal true
-      form.errors.messages.inspect.must_equal "{}"
+      _(form.validate({username: "Helloween", email: "yep", password: "9", confirm_password: 9})).must_equal true
+      _(form.errors.messages.inspect).must_equal "{}"
     end
 
     # invalid.
     it do
-      form.validate({password: 9}).must_equal false
-      form.errors.messages.inspect.must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
+      _(form.validate({password: 9})).must_equal false
+      _(form.errors.messages.inspect).must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
     end
 
     # partially invalid.
     # 2nd group fails.
     it do
-      form.validate(password: 9).must_equal false
-      form.errors.messages.inspect.must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
+      _(form.validate(password: 9)).must_equal false
+      _(form.errors.messages.inspect).must_equal "{:username=>[\"can't be blank\"], :email=>[\"can't be blank\"]}"
     end
   end
 
@@ -130,13 +130,13 @@ class ActiveModelValidationTest < MiniTest::Spec
 
   #   # valid.
   #   it do
-  #     form.validate({username: "Helloween"}).must_equal true
+  #     _(form.validate({username: "Helloween"})).must_equal true
   #   end
 
   #   # invalid.
   #   it do
-  #     form.validate({}).must_equal false
-  #     form.errors.messages.inspect.must_equal "{:username=>[\"username can't be blank\"]}"
+  #     _(form.validate({})).must_equal false
+  #     _(form.errors.messages.inspect).must_equal "{:username=>[\"username can't be blank\"]}"
   #   end
   # end
 
@@ -161,16 +161,16 @@ class ActiveModelValidationTest < MiniTest::Spec
 
     # valid.
     it do
-      form.validate({username: "Helloween", email: 9}).must_equal true
+      _(form.validate({username: "Helloween", email: 9})).must_equal true
     end
 
     # invalid.
     it do
-      form.validate({}).must_equal false
-      form.errors.messages.inspect.must_equal "{:email=>[\"can't be blank\"], :username=>[\"can't be blank\"]}"
+      _(form.validate({})).must_equal false
+      _(form.errors.messages.inspect).must_equal "{:email=>[\"can't be blank\"], :username=>[\"can't be blank\"]}"
 
       if self.class.rails5?
-        form.errors.details.inspect.must_equal "{:email=>[{:error=>:blank}], :username=>[{:error=>:blank}]}"
+        _(form.errors.details.inspect).must_equal "{:email=>[{:error=>:blank}], :username=>[{:error=>:blank}]}"
       end
     end
   end
@@ -203,15 +203,15 @@ class ActiveModelValidationTest < MiniTest::Spec
 
     # valid.
     it do
-      form.validate({username: "Strung Out", email: 9}).must_equal true
+      _(form.validate({username: "Strung Out", email: 9})).must_equal true
     end
 
     # invalid.
     it do
-      form.validate({email: 9}).must_equal false
-      form.errors.messages.inspect.must_equal "{:username=>[\"can't be blank\"]}"
+      _(form.validate({email: 9})).must_equal false
+      _(form.errors.messages.inspect).must_equal "{:username=>[\"can't be blank\"]}"
       if self.class.rails5?
-        form.errors.details.inspect.must_equal "{:username=>[{:error=>:blank}]}"
+        _(form.errors.details.inspect).must_equal "{:username=>[{:error=>:blank}]}"
       end
 
     end
@@ -255,67 +255,67 @@ class ActiveModelValidationTest < MiniTest::Spec
 
     # invalid.
     it "is invalid" do
-      form.validate({username: "yo", email: nil}).must_equal false
-      form.errors.messages.must_equal({:email=>["can't be blank", "fill it out!"], :username=>["not ok", "must be yo"]})
+      _(form.validate({username: "yo", email: nil})).must_equal false
+      _(form.errors.messages).must_equal({:email=>["can't be blank", "fill it out!"], :username=>["not ok", "must be yo"]})
       if self.class.rails5?
-        form.errors.details.inspect.must_equal "{:username=>[{:error=>\"not ok\"}, {:error=>\"must be yo\"}], :email=>[{:error=>:blank}, {:error=>\"fill it out!\"}]}"
+        _(form.errors.details.inspect).must_equal "{:username=>[{:error=>\"not ok\"}, {:error=>\"must be yo\"}], :email=>[{:error=>:blank}, {:error=>\"fill it out!\"}]}"
       end
     end
 
     # valid.
     it "is valid" do
-      form.validate({ username: "not yo", email: "bla" }).must_equal true
-      form.errors.messages.must_equal({:username=>[], :email=>[]})
+      _(form.validate({ username: "not yo", email: "bla" })).must_equal true
+      _(form.errors.messages).must_equal({:username=>[], :email=>[]})
       if self.class.rails5?
-        form.errors.details.inspect.must_equal "{}"
+        _(form.errors.details.inspect).must_equal "{}"
       end
-      form.errors.empty?.must_equal true
+      _(form.errors.empty?).must_equal true
     end
 
     it 'able to add errors' do
-      form.validate(username: "yo", email: nil).must_equal false
-      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"])
-      form.errors.details.must_equal(username: [{error: "not ok"}, {error: "must be yo"}], email: [{error: :blank}, {error: "fill it out!"}])
+      _(form.validate(username: "yo", email: nil)).must_equal false
+      _(form.errors.messages).must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"])
+      _(form.errors.details).must_equal(username: [{error: "not ok"}, {error: "must be yo"}], email: [{error: :blank}, {error: "fill it out!"}])
       # add a new custom error
       form.errors.add(:policy, "error_text")
-      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
-      form.errors.details.must_equal(
+      _(form.errors.messages).must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
+      _(form.errors.details).must_equal(
         username: [{error: "not ok"}, {error: "must be yo"}],
         email: [{error: :blank}, {error: "fill it out!"}],
         policy: [error: "error_text"]
       )
       # does not duplicate errors
       form.errors.add(:email, "fill it out!")
-      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
-      form.errors.details.must_equal(
+      _(form.errors.messages).must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text"])
+      _(form.errors.details).must_equal(
         username: [{error: "not ok"}, {error: "must be yo"}],
         email: [{error: :blank}, {error: "fill it out!"}, {error: "fill it out!"}],
         policy: [error: "error_text"]
       )
       # merge existing errors
       form.errors.add(:policy, "another error")
-      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
-      form.errors.details.must_equal(
+      _(form.errors.messages).must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+      _(form.errors.details).must_equal(
         username: [{error: "not ok"}, {error: "must be yo"}],
         email: [{error: :blank}, {error: "fill it out!"}, {error: "fill it out!"}],
         policy: [{error: "error_text"}, {error: "another error"}]
       )
       # keep added errors after valid?
       form.valid?
-      form.errors.details.must_equal(
+      _(form.errors.details).must_equal(
         username: [{error: "not ok"}, {error: "must be yo"}],
         email: [{error: :blank}, {error: "fill it out!"}],
         policy: [{error: "error_text"}, {error: "another error"}]
       )
-      form.errors.added?(:policy, "error_text").must_equal true
-      form.errors.added?(:policy, "another error").must_equal true
-      form.errors.messages.must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
+      _(form.errors.added?(:policy, "error_text")).must_equal true
+      _(form.errors.added?(:policy, "another error")).must_equal true
+      _(form.errors.messages).must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
       # keep added errors after validate
-      form.validate(username: "username", email: "email@email.com").must_equal false
-      form.errors.messages.must_equal(policy: ["error_text", "another error"], username: [], email: [])
-      form.errors.added?(:policy, "error_text").must_equal true
-      form.errors.added?(:policy, "another error").must_equal true
-      form.errors.details.must_equal(
+      _(form.validate(username: "username", email: "email@email.com")).must_equal false
+      _(form.errors.messages).must_equal(policy: ["error_text", "another error"], username: [], email: [])
+      _(form.errors.added?(:policy, "error_text")).must_equal true
+      _(form.errors.added?(:policy, "another error")).must_equal true
+      _(form.errors.details).must_equal(
         policy: [{error: "error_text"}, {error: "another error"}]
       )
     end
@@ -328,12 +328,12 @@ class ActiveModelValidationTest < MiniTest::Spec
 
     it do
       skip('fails in rails 5') if self.class.rails5?
-      AcceptanceForm.new(nil).validate(accept: "0").must_equal false
+      _(AcceptanceForm.new(nil).validate(accept: "0")).must_equal false
     end
 
     it do
       skip('fails in rails 5') if self.class.rails5?
-      AcceptanceForm.new(nil).validate(accept: "1").must_equal true
+      _(AcceptanceForm.new(nil).validate(accept: "1")).must_equal true
     end
   end
 
@@ -360,10 +360,10 @@ class ActiveModelValidationTest < MiniTest::Spec
      end
    end
 
-   it { ValidateEachForm.new(Album.new).validate(songs: "orange").must_equal false }
-   it { ValidateEachForm.new(Album.new).validate(songs: "red").must_equal true }
+   it { _(ValidateEachForm.new(Album.new).validate(songs: "orange")).must_equal false }
+   it { _(ValidateEachForm.new(Album.new).validate(songs: "red")).must_equal true }
 
-   it { ValidateEachForm2.new(Album.new).validate(songs: "orange").must_equal false }
-   it { ValidateEachForm2.new(Album.new).validate(songs: "red").must_equal true }
+   it { _(ValidateEachForm2.new(Album.new).validate(songs: "orange")).must_equal false }
+   it { _(ValidateEachForm2.new(Album.new).validate(songs: "red")).must_equal true }
  end
 end

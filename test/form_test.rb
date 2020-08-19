@@ -10,7 +10,7 @@ class FormTest < Minitest::Spec
   it do
     form = SongForm.new(OpenStruct.new)
     form.validate({})
-    form.errors.messages.must_equal({:title=>["can't be blank"], :genre=>["can't be blank"], :band=>["can't be blank"]})
+    _(form.errors.messages).must_equal({:title=>["can't be blank"], :genre=>["can't be blank"], :band=>["can't be blank"]})
   end
 
   Album = Struct.new(:hit)
@@ -23,9 +23,9 @@ class FormTest < Minitest::Spec
   end
   it do
     form = PopulatedAlbumForm.new(Album.new)
-    form.validate({ :hit => { :length => "54" }}).must_equal(false)
-    form.errors.messages.must_equal({ :"hit.length" => ["must be greater than 55"] })
-    form.validate({ :hit => { :length => "57" }}).must_equal(true)
-    form.errors.messages.must_equal({})
+    _(form.validate({ :hit => { :length => "54" }})).must_equal(false)
+    _(form.errors.messages).must_equal({ :"hit.length" => ["must be greater than 55"] })
+    _(form.validate({ :hit => { :length => "57" }})).must_equal(true)
+    _(form.errors.messages).must_equal({})
   end
 end

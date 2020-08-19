@@ -42,7 +42,7 @@ class ActiveRecordTest < MiniTest::Spec
   let(:artist)  { Artist.create(:name => "Opeth") }
   let(:form)    { SongForm.new(Song.new(:artist => Artist.new)) }
 
-  it { form.class.i18n_scope.must_equal :activerecord }
+  it { _(form.class.i18n_scope).must_equal :activerecord }
 
   # uniqueness
   it "has no errors on title when title is unique for the same artist and album" do
@@ -59,15 +59,15 @@ class ActiveRecordTest < MiniTest::Spec
 
   # nested object taken.
   it "is valid when artist name is unique" do
-    form.validate("artist" => {"name" => "Paul Gilbert"}, "title" => "The Gargoyle", "created_at" => "November 6, 1966").must_equal true
+    _(form.validate("artist" => {"name" => "Paul Gilbert"}, "title" => "The Gargoyle", "created_at" => "November 6, 1966")).must_equal true
   end
 
   it "is invalid and shows error when taken" do
     Song.delete_all
     Artist.create(:name => "Racer X")
 
-    form.validate("artist" => {"name" => "Racer X"}, "title" => "Ghost Inside My Skin").must_equal false
-    form.errors.messages.must_equal({:"artist.name"=>["has already been taken"], :created_at => ["can't be blank"]})
+    _(form.validate("artist" => {"name" => "Racer X"}, "title" => "Ghost Inside My Skin")).must_equal false
+    _(form.errors.messages).must_equal({:"artist.name"=>["has already been taken"], :created_at => ["can't be blank"]})
   end
 
   it "works with Composition" do
@@ -80,7 +80,7 @@ class ActiveRecordTest < MiniTest::Spec
     end.new(:artist => Artist.new)
 
     Artist.create(:name => "Bad Religion")
-    form.validate("name" => "Bad Religion").must_equal false
+    _(form.validate("name" => "Bad Religion")).must_equal false
   end
 
   describe "#save" do
@@ -89,22 +89,22 @@ class ActiveRecordTest < MiniTest::Spec
       Artist.delete_all
       form.validate("artist" => {"name" => "Bad Religion"}, "title" => "Ghost Inside My Skin")
       form.save
-      Artist.where(:name => "Bad Religion").size.must_equal 1
+      _(Artist.where(:name => "Bad Religion").size).must_equal 1
     end
 
     it "doesn't call model.save when block is given" do
       Artist.delete_all
       form.validate("name" => "Bad Religion")
       form.save {}
-      Artist.where(:name => "Bad Religion").size.must_equal 0
+      _(Artist.where(:name => "Bad Religion").size).must_equal 0
     end
 
     it "can access block params using string or hash key" do
       Artist.delete_all
       form.validate("artist" => {"name" => "Paul Gilbert"}, "title" => "The Gargoyle", "created_at" => "November 6, 1966")
       form.save do |params|
-        params[:title].must_equal 'The Gargoyle'
-        params['title'].must_equal 'The Gargoyle'
+        _(params[:title]).must_equal 'The Gargoyle'
+        _(params['title']).must_equal 'The Gargoyle'
       end
     end
   end
@@ -128,23 +128,23 @@ class PopulateWithActiveRecordTest < MiniTest::Spec
     form.validate("songs" => [{"title" => "Straight From The Jacket"}])
 
     # form populated.
-    form.songs.size.must_equal 1
-    form.songs[0].model.must_be_kind_of Song
+    _(form.songs.size).must_equal 1
+    _(form.songs[0].model).must_be_kind_of Song
 
     # model NOT populated.
-    album.songs.must_equal []
+    _(album.songs).must_equal []
 
 
     form.sync
 
     # form populated.
-    form.songs.size.must_equal 1
-    form.songs[0].model.must_be_kind_of Song
+    _(form.songs.size).must_equal 1
+    _(form.songs[0].model).must_be_kind_of Song
 
     # model also populated.
     song = album.songs[0]
-    album.songs.must_equal [song]
-    song.title.must_equal "Straight From The Jacket"
+    _(album.songs).must_equal [song]
+    _(song.title).must_equal "Straight From The Jacket"
 
 
     if ActiveRecord::VERSION::STRING !~ /^3.0/
@@ -153,8 +153,8 @@ class PopulateWithActiveRecordTest < MiniTest::Spec
 
       album.reload
       song = album.songs[0]
-      album.songs.must_equal [song]
-      song.title.must_equal "Straight From The Jacket"
+      _(album.songs).must_equal [song]
+      _(song.title).must_equal "Straight From The Jacket"
     end
   end
 
@@ -172,30 +172,30 @@ class PopulateWithActiveRecordTest < MiniTest::Spec
       form.validate("songs" => [{"title" => "Part Two"}, {"title" => "Check For A Pulse"}])
 
       # form populated.
-      form.songs.size.must_equal 2
-      form.songs[0].model.must_be_kind_of Song
-      form.songs[1].model.must_be_kind_of Song
+      _(form.songs.size).must_equal 2
+      _(form.songs[0].model).must_be_kind_of Song
+      _(form.songs[1].model).must_be_kind_of Song
 
       # model NOT populated.
-      album.songs.must_equal [song]
+      _(album.songs).must_equal [song]
 
 
       form.sync
 
       # form populated.
-      form.songs.size.must_equal 2
+      _(form.songs.size).must_equal 2
 
       # model also populated.
-      album.songs.size.must_equal 2
+      _(album.songs.size).must_equal 2
 
       # corrected title
-      album.songs[0].title.must_equal "Part Two"
+      _(album.songs[0].title).must_equal "Part Two"
       # ..but same song.
-      album.songs[0].id.must_equal id
+      _(album.songs[0].id).must_equal id
 
       # and a new song.
-      album.songs[1].title.must_equal "Check For A Pulse"
-      album.songs[1].persisted?.must_equal true # TODO: with << strategy, this shouldn't be saved.
+      _(album.songs[1].title).must_equal "Check For A Pulse"
+      _(album.songs[1].persisted?).must_equal true # TODO: with << strategy, this shouldn't be saved.
     end
 
     describe 'using nested_models_attributes to modify nested collection' do
@@ -217,12 +217,12 @@ class PopulateWithActiveRecordTest < MiniTest::Spec
         form.validate('songs_attributes' => {'0' => {'title' => 'Tango'}})
 
         # form populated.
-        form.songs.size.must_equal 1
-        form.songs[0].model.must_be_kind_of Song
-        form.songs[0].title.must_equal 'Tango'
+        _(form.songs.size).must_equal 1
+        _(form.songs[0].model).must_be_kind_of Song
+        _(form.songs[0].title).must_equal 'Tango'
 
         # model NOT populated.
-        album.songs.must_equal []
+        _(album.songs).must_equal []
 
         form.save
 
@@ -231,39 +231,39 @@ class PopulateWithActiveRecordTest < MiniTest::Spec
         assert first_song.id > 0
 
         # form populated.
-        form.songs.size.must_equal 1
+        _(form.songs.size).must_equal 1
 
         # model also populated.
-        album.songs.size.must_equal 1
-        album.songs[0].title.must_equal 'Tango'
+        _(album.songs.size).must_equal 1
+        _(album.songs[0].title).must_equal 'Tango'
 
         # DISCUSS: IfEmpty uses twin.original[index] for syncing. in our case, this is empty, so it will add Tango again.
         form = ActiveModelAlbumForm.new(album)
         form.validate('songs_attributes' => {'0' => {'id' => first_song.id, 'title' => 'Tango nuevo'}, '1' => {'title' => 'Waltz'}})
 
         # form populated.
-        form.songs.size.must_equal 2
-        form.songs[0].model.must_be_kind_of Song
-        form.songs[1].model.must_be_kind_of Song
-        form.songs[0].title.must_equal 'Tango nuevo'
-        form.songs[1].title.must_equal 'Waltz'
+        _(form.songs.size).must_equal 2
+        _(form.songs[0].model).must_be_kind_of Song
+        _(form.songs[1].model).must_be_kind_of Song
+        _(form.songs[0].title).must_equal 'Tango nuevo'
+        _(form.songs[1].title).must_equal 'Waltz'
 
         # model NOT populated.
-        album.songs.size.must_equal 1
-        album.songs[0].title.must_equal 'Tango'
+        _(album.songs.size).must_equal 1
+        _(album.songs[0].title).must_equal 'Tango'
 
         form.save
 
         # form populated.
-        form.songs.size.must_equal 2
+        _(form.songs.size).must_equal 2
 
         # model also populated.
-        album.songs.size.must_equal 2
-        album.songs[0].id.must_equal first_song.id
-        album.songs[0].persisted?.must_equal true
-        album.songs[1].persisted?.must_equal true
-        album.songs[0].title.must_equal 'Tango nuevo'
-        album.songs[1].title.must_equal 'Waltz'
+        _(album.songs.size).must_equal 2
+        _(album.songs[0].id).must_equal first_song.id
+        _(album.songs[0].persisted?).must_equal true
+        _(album.songs[1].persisted?).must_equal true
+        _(album.songs[0].title).must_equal 'Tango nuevo'
+        _(album.songs[1].title).must_equal 'Waltz'
       end
     end
   end

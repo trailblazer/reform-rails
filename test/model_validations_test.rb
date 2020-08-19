@@ -47,15 +47,15 @@ class ModelValidationsTest < MiniTest::Spec
     let(:album_form) { AlbumForm.new(album) }
 
     it 'is not valid when title is not present' do
-      album_form.validate(artist_name: 'test', title: nil).must_equal false
+      _(album_form.validate(artist_name: 'test', title: nil)).must_equal false
     end
 
     it 'is not valid when artist_name is not present' do
-      album_form.validate(artist_name: nil, title: 'test').must_equal false
+      _(album_form.validate(artist_name: nil, title: 'test')).must_equal false
     end
 
     it 'is valid when title and artist_name is present' do
-      album_form.validate(artist_name: 'test', title: 'test').must_equal true
+      _(album_form.validate(artist_name: 'test', title: 'test')).must_equal true
     end
 
   end
@@ -66,15 +66,15 @@ class ModelValidationsTest < MiniTest::Spec
     let(:composite_form) { CompositeForm.new(album: album, album_rating: album_rating) }
 
     it 'is valid when all attributes are correct' do
-      composite_form.validate(artist_name: 'test', title: 'test', rating: 1).must_equal true
+      _(composite_form.validate(artist_name: 'test', title: 'test', rating: 1)).must_equal true
     end
 
     it 'is invalid when rating is below 0' do
-      composite_form.validate(artist_name: 'test', title: 'test', rating: -1).must_equal false
+      _(composite_form.validate(artist_name: 'test', title: 'test', rating: -1)).must_equal false
     end
 
     it 'is invalid when artist_name is missing' do
-      composite_form.validate(artist_name: nil, title: 'test', rating: 1).must_equal false
+      _(composite_form.validate(artist_name: nil, title: 'test', rating: 1)).must_equal false
     end
 
   end
