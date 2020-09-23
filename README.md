@@ -14,7 +14,7 @@ Simply don't include this gem if you don't want to use the conventional Reform/R
 
 ## Documentation
 
-The [full documentation](http://trailblazer.to/gems/reform/rails.html) can be found on the Trailblazer page.
+The [full documentation](https://trailblazer.to/2.0/gems/reform/rails.html) can be found on the Trailblazer page.
 
 ## Installation
 
