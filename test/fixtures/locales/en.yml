@@ -3,6 +3,9 @@ en:
   # custom validation error messages
 
   activemodel:
+    attributes:
+      song:
+        title: "Song Title"
     errors:
       models:
         song:

@@ -72,4 +72,12 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
       _(form.errors[:title]).must_include "Custom Error Message"
     end
   end
+
+  describe 'when calling full_messages' do
+    it 'translates the field name' do
+      form = SongForm::WithBlock.new(Song.new)
+      form.validate({})
+      _(form.errors.full_messages).must_include "Song Title can't be blank"
+    end
+  end
 end

@@ -164,6 +164,10 @@ module Reform
           def respond_to?(method)
             @amv_errors.respond_to?(method) ? true : super
           end
+
+          def full_messages
+            @amv_errors.full_messages
+          end
         end
       end
 
