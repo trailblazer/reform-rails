@@ -5,7 +5,9 @@ en:
   activemodel:
     attributes:
       song:
-        title: "Song Title"
+        title: Custom Song Title
+      album:
+        title: Custom Album Title
     errors:
       models:
         song:
@@ -40,3 +42,7 @@ en:
               attributes:
                 name:
                   taken: has already been taken
+        active_model_custom_validation_translations_test/album:
+              attributes:
+                title:
+                  too_short: is too short

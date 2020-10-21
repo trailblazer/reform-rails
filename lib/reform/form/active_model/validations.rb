@@ -166,7 +166,23 @@ module Reform
           end
 
           def full_messages
-            @amv_errors.full_messages
+            base_errors = @amv_errors.full_messages
+            form_fields = @amv_errors.instance_variable_get(:@base).instance_variable_get(:@fields)
+            nested_errors = full_messages_for_nested_fields(form_fields)
+            
+            [base_errors, nested_errors].flatten.compact
+          end
+          
+          def full_messages_for_nested_fields(form_fields)
+            form_fields.map do |field|
+              field_value = field[1]
+              field_is_a_collection = field_value.class == Disposable::Twin::Collection
+              return field_value.map { |twin_collection| collection_full_messages(twin_collection) } if field_is_a_collection
+            end
+          end
+
+          def collection_full_messages(twin_collection)
+            twin_collection.instance_variable_get(:@amv_errors).full_messages
           end
         end
       end

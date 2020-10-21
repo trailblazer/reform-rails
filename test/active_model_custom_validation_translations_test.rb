@@ -31,7 +31,23 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
       end
     end
   end
+  
+  class AlbumForm < Reform::Form
+    model :album    
+    property :title
 
+    validate do
+      errors.add :title, :too_short, count: 15
+    end
+
+    collection :songs, :populate_if_empty => Song do
+      property :title
+
+      validate do
+        errors.add :title, :blank
+      end
+    end
+  end
 
   describe 'when using a default translation' do
     it 'translates the error message when custom validation is used with block' do
@@ -77,7 +93,18 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
     it 'translates the field name' do
       form = SongForm::WithBlock.new(Song.new)
       form.validate({})
-      _(form.errors.full_messages).must_include "Song Title can't be blank"
+      _(form.errors.full_messages).must_include "Custom Song Title can't be blank"
+    end
+
+    describe 'when using nested_model_attributes' do
+      it 'translates the nested model attributes name' do
+        album = Album.create(title: 'Greatest Hits')
+        form = AlbumForm.new(album)
+        form.songs << Song.create(title: 'Your favorite song')
+        form.validate({})        
+        _(form.errors.full_messages).must_include "Custom Album Title is too short (minimum is 15 characters)"
+        _(form.errors.full_messages).must_include "Custom Song Title can't be blank"
+      end
     end
   end
 end
