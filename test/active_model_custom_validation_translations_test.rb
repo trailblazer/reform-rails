@@ -40,6 +40,14 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
       errors.add :title, :too_short, count: 15
     end
 
+    property :artist, :populate_if_empty => Artist do
+      property :name
+
+      validate do
+        errors.add :name, :blank
+      end
+    end
+
     collection :songs, :populate_if_empty => Song do
       property :title
 
@@ -99,11 +107,11 @@ class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
     describe 'when using nested_model_attributes' do
       it 'translates the nested model attributes name' do
         album = Album.create(title: 'Greatest Hits')
-        form = AlbumForm.new(album)
-        form.songs << Song.create(title: 'Your favorite song')
+        form = AlbumForm.new(album, artist: Artist.new, songs: [Song.new])
         form.validate({})        
         _(form.errors.full_messages).must_include "Custom Album Title is too short (minimum is 15 characters)"
         _(form.errors.full_messages).must_include "Custom Song Title can't be blank"
+        _(form.errors.full_messages).must_include "Custom Artist Name can't be blank"
       end
     end
   end

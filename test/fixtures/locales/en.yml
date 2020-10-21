@@ -8,6 +8,8 @@ en:
         title: Custom Song Title
       album:
         title: Custom Album Title
+      artist:
+        name: Custom Artist Name
     errors:
       models:
         song:
