@@ -1,3 +1,7 @@
+# 0.2.1
+
+* Error's full_message  with translation fixed thanks to [@marcelolx](https://github.com/trailblazer/reform-rails/pull/85)
+
 # 0.2.0
 
 * Needs Reform >= 2.3.0.
