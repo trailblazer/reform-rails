@@ -3,6 +3,13 @@ en:
   # custom validation error messages
 
   activemodel:
+    attributes:
+      song:
+        title: Custom Song Title
+      album:
+        title: Custom Album Title
+      artist:
+        name: Custom Artist Name
     errors:
       models:
         song:
@@ -37,3 +44,7 @@ en:
               attributes:
                 name:
                   taken: has already been taken
+        active_model_custom_validation_translations_test/album:
+              attributes:
+                title:
+                  too_short: is too short

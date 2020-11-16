@@ -164,6 +164,35 @@ module Reform
           def respond_to?(method)
             @amv_errors.respond_to?(method) ? true : super
           end
+
+          def full_messages
+            base_errors = @amv_errors.full_messages
+            form_fields = @amv_errors.instance_variable_get(:@base).instance_variable_get(:@fields)
+            nested_errors = full_messages_for_nested_fields(form_fields)
+            
+            [base_errors, nested_errors].flatten.compact
+          end
+
+          private
+          
+          def full_messages_for_nested_fields(form_fields)
+            form_fields.map { |field| full_messages_for_twin(field[1]) }
+          end
+
+          def full_messages_for_twin(object)
+            return get_collection_errors(object) if object.is_a? Disposable::Twin::Collection
+            return get_amv_errors(object) if object.is_a? Disposable::Twin
+
+            nil
+          end
+
+          def get_collection_errors(twin_collection)
+            twin_collection.map { |twin| get_amv_errors(twin) }
+          end
+
+          def get_amv_errors(object)
+            object.instance_variable_get(:@amv_errors).full_messages
+          end
         end
       end
 
