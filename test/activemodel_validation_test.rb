@@ -265,7 +265,11 @@ class ActiveModelValidationTest < MiniTest::Spec
     # valid.
     it "is valid" do
       _(form.validate({ username: "not yo", email: "bla" })).must_equal true
-      _(form.errors.messages).must_equal({:username=>[], :email=>[]})
+      if self.class.rails_greater_6_0?
+        _(form.errors.messages).must_equal({})
+      else
+        _(form.errors.messages).must_equal({:username=>[], :email=>[]})
+      end
       if self.class.rails5?
         _(form.errors.details.inspect).must_equal "{}"
       end
@@ -312,7 +316,11 @@ class ActiveModelValidationTest < MiniTest::Spec
       _(form.errors.messages).must_equal(email: ["can't be blank", "fill it out!"], username: ["not ok", "must be yo"], policy: ["error_text", "another error"])
       # keep added errors after validate
       _(form.validate(username: "username", email: "email@email.com")).must_equal false
-      _(form.errors.messages).must_equal(policy: ["error_text", "another error"], username: [], email: [])
+      if self.class.rails_greater_6_0?
+        _(form.errors.messages).must_equal(policy: ["error_text", "another error"])
+      else
+        _(form.errors.messages).must_equal(policy: ["error_text", "another error"], username: [], email: [])
+      end
       _(form.errors.added?(:policy, "error_text")).must_equal true
       _(form.errors.added?(:policy, "another error")).must_equal true
       _(form.errors.details).must_equal(
