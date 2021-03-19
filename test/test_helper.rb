@@ -39,6 +39,10 @@ ActiveRecord::Schema.verbose = false
 load "#{File.dirname(__FILE__)}/support/schema.rb"
 
 Minitest::Spec.class_eval do
+  def self.rails_greater_6_0?
+    (::ActiveModel::VERSION::MAJOR == 6 and ::ActiveModel::VERSION::MINOR >= 1) || (::ActiveModel::VERSION::MAJOR >= 7)
+  end
+
   def self.rails5?
     ::ActiveModel::VERSION::MAJOR.in? [5,6]
   end

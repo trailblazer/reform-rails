@@ -143,7 +143,8 @@ module Reform
 
           def add(key, error_text)
             # use rails magic to get the correct error_text and make sure we still update details and fields
-            text = @amv_errors.add(key, error_text)
+            error = @amv_errors.add(key, error_text)
+            error = [error.message] unless error.is_a?(Array)
 
             # using error_text instead of text to either keep the symbol which will be
             # magically replaced with the translate or directly the string - this is also
@@ -153,7 +154,7 @@ module Reform
 
             # but since messages method is actually already defined in `Reform::Contract::Result::Errors
             # we need to update the @dotted_errors instance variable to add or merge a new error
-            @dotted_errors.key?(key) ? @dotted_errors[key] |= text : @dotted_errors[key] = text
+            @dotted_errors.key?(key) ? @dotted_errors[key] |= error : @dotted_errors[key] = error
             instance_variable_set(:@dotted_errors, @dotted_errors)
           end
 
