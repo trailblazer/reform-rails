@@ -138,6 +138,25 @@ class NewActiveModelTest < MiniTest::Spec # TODO: move to test/rails/
   end
 end
 
+class ActiveModelWithNilModel < MiniTest::Spec
+  class SongForm < Reform::Form
+    include Reform::Form::ActiveModel
+    include Reform::Form::NotPersisted
+
+    property :name, virtual: true
+  end
+
+  let (:form) { SongForm.new(nil) }
+
+  it do
+    form.persisted?.must_equal false
+    form.to_key.must_equal nil
+    form.to_param.must_equal nil
+    form.to_model.must_equal form
+    form.id.must_equal nil
+    form.model_name.must_equal form.class.model_name
+  end
+end
 
 class ActiveModelWithCompositionTest < MiniTest::Spec
    class HitForm < Reform::Form
