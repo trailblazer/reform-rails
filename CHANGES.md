@@ -1,3 +1,7 @@
+# 0.2.3
+
+* Fix deprecation warning related to `respond_to?`
+
 # 0.2.2
 
 * Support ActiveRecord 6.1
