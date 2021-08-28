@@ -162,8 +162,8 @@ module Reform
             @amv_errors.send(m, *args, &block) # send all methods to the AMV errors, even privates.
           end
 
-          def respond_to?(method)
-            @amv_errors.respond_to?(method) ? true : super
+          def respond_to?(method, include_all = false)
+            @amv_errors.respond_to?(method, include_all) ? true : super
           end
 
           def full_messages
