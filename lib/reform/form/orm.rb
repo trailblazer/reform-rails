@@ -19,7 +19,7 @@ module Reform::Form::ORM
 
       @klass = record.class # this is usually done in the super-sucky #setup method.
       super(record).tap do |res|
-        form.errors.add(property, record.errors.first.last) if record.errors.present?
+        form.errors.add(property, record.errors.messages_for(property).first) if record.errors.present?
       end
     end
   end
