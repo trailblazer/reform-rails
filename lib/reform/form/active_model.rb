@@ -1,13 +1,11 @@
-require "uber/delegates"
-
 module Reform::Form::ActiveModel
   def self.included(base)
     base.class_eval do
       extend ClassMethods
       register_feature ActiveModel
 
-      extend Uber::Delegates
-      delegates :model, *[:persisted?, :to_key, :to_param, :id] # Uber::Delegates
+      extend Forwardable
+      def_delegators :model, :persisted?, :to_key, :to_param, :id
 
       def to_model # this is called somewhere in FormBuilder and ActionController.
         self

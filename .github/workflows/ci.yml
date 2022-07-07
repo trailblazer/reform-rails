@@ -1,0 +1,28 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        # Due to https://github.com/actions/runner/issues/849, we have to use quotes for '3.0'
+        ruby: [2.5, 2.6, 2.7, '3.0', head]
+        rails: ['6.1', '6.0', '5.2']
+        mongodb-version: ['4.4']
+        exclude:
+          - ruby: '3.0'
+            rails: 5.2
+          - ruby: head
+            rails: 5.2
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: supercharge/mongodb-github-action@1.6.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - run: RAILS_VERSION=${{ matrix.rails }} bundle install
+    - run: RAILS_VERSION=${{ matrix.rails }} bundle exec rake
