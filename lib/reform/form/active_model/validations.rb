@@ -161,6 +161,7 @@ module Reform
           def method_missing(m, *args, &block)
             @amv_errors.send(m, *args, &block) # send all methods to the AMV errors, even privates.
           end
+          ruby2_keywords(:method_missing) if respond_to?(:ruby2_keywords, true)
 
           def respond_to?(method, include_all = false)
             @amv_errors.respond_to?(method, include_all) ? true : super
@@ -233,6 +234,7 @@ module Reform
         def method_missing(m, *args, &block)
           __getobj__.send(m, *args, &block) # send all methods to the form, even privates.
         end
+        ruby2_keywords(:method_missing) if respond_to?(:ruby2_keywords, true)
       end
     end
 
