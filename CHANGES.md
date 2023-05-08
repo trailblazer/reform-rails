@@ -1,3 +1,8 @@
+# 0.2.4
+
+* Fix keyword argument warning in `method_missing` (https://github.com/trailblazer/reform-rails/pull/97)
+* Internal: Replace Uber::Delegates with Forwardable in Form::ActiveModel
+
 # 0.2.3
 
 * Fix deprecation warning related to `respond_to?`
