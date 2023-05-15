@@ -4,8 +4,7 @@ module Reform::Form::ActiveModel
       extend ClassMethods
       register_feature ActiveModel
 
-      extend Forwardable
-      def_delegators :model, :persisted?, :to_key, :to_param, :id
+      delegate :persisted?, :to_key, :to_param, :id, to: :model
 
       def to_model # this is called somewhere in FormBuilder and ActionController.
         self
