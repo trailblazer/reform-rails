@@ -1,3 +1,7 @@
+# 0.2.5
+
+* Fix: Delegating from form object causes ArgumentError with 0.2.4 (https://github.com/trailblazer/reform-rails/issues/99)
+
 # 0.2.4
 
 * Fix keyword argument warning in `method_missing` (https://github.com/trailblazer/reform-rails/pull/97)
