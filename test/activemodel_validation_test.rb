@@ -326,6 +326,9 @@ class ActiveModelValidationTest < MiniTest::Spec
       _(form.errors.details).must_equal(
         policy: [{error: "error_text"}, {error: "another error"}]
       )
+
+      form.errors.add(:email, :less_than_or_equal_to, count: 2)
+      _(form.errors.messages[:email]).must_equal(["must be less than or equal to 2"])
     end
   end
 

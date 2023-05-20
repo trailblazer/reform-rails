@@ -141,9 +141,9 @@ module Reform
             messages.to_s
           end
 
-          def add(key, error_text)
+          def add(key, error_text, **error_options)
             # use rails magic to get the correct error_text and make sure we still update details and fields
-            error = @amv_errors.add(key, error_text)
+            error = @amv_errors.add(key, error_text, **error_options)
             error = [error.message] unless error.is_a?(Array)
 
             # using error_text instead of text to either keep the symbol which will be
@@ -171,12 +171,12 @@ module Reform
             base_errors = @amv_errors.full_messages
             form_fields = @amv_errors.instance_variable_get(:@base).instance_variable_get(:@fields)
             nested_errors = full_messages_for_nested_fields(form_fields)
-            
+
             [base_errors, nested_errors].flatten.compact
           end
 
           private
-          
+
           def full_messages_for_nested_fields(form_fields)
             form_fields.map { |field| full_messages_for_twin(field[1]) }
           end
