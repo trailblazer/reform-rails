@@ -55,7 +55,7 @@ end
 I18n.load_path << Dir['test/fixtures/locales/*.yml']
 I18n.backend.load_translations
 
-class BaseTest < MiniTest::Spec
+class BaseTest < Minitest::Spec
   class AlbumForm < Reform::Form
     property :title
 
