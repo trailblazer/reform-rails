@@ -1,6 +1,6 @@
 require "test_helper"
 
-class ActiveModelValidationTest < MiniTest::Spec
+class ActiveModelValidationTest < Minitest::Spec
   Session = Struct.new(:username, :email, :password, :confirm_password)
   Album = Struct.new(:name, :songs, :artist)
   Artist = Struct.new(:name)
@@ -381,7 +381,7 @@ end
 
 # Regression
 # Addresses a bug: https://github.com/trailblazer/reform-rails/issues/103
-class ActiveModelValidationWithIfTest < MiniTest::Spec
+class ActiveModelValidationWithIfTest < Minitest::Spec
   Session = Struct.new(:id)
   # Album = Struct.new(:name, :songs, :artist)
   # Artist = Struct.new(:name)

@@ -3,7 +3,7 @@ require "test_helper"
 require "reform/form/validation/unique_validator.rb"
 require "reform/form/active_record"
 
-class UniquenessValidatorOnCreateTest < MiniTest::Spec
+class UniquenessValidatorOnCreateTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :title
@@ -23,7 +23,7 @@ class UniquenessValidatorOnCreateTest < MiniTest::Spec
   end
 end
 
-class UniquenessValidatorOnCreateCaseInsensitiveTest < MiniTest::Spec
+class UniquenessValidatorOnCreateCaseInsensitiveTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :title
@@ -50,7 +50,7 @@ class UniquenessValidatorOnCreateCaseInsensitiveTest < MiniTest::Spec
   end
 end
 
-class UniquenessValidatorOnUpdateTest < MiniTest::Spec
+class UniquenessValidatorOnUpdateTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :title
@@ -70,7 +70,7 @@ class UniquenessValidatorOnUpdateTest < MiniTest::Spec
   end
 end
 
-class UniquenessValidatorOnUpdateWithDuplicateTest < MiniTest::Spec
+class UniquenessValidatorOnUpdateWithDuplicateTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :title
@@ -89,7 +89,7 @@ class UniquenessValidatorOnUpdateWithDuplicateTest < MiniTest::Spec
   end
 end
 
-class UniquenessValidatorWithFromPropertyTest < MiniTest::Spec
+class UniquenessValidatorWithFromPropertyTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :name, from: :title
@@ -109,7 +109,7 @@ class UniquenessValidatorWithFromPropertyTest < MiniTest::Spec
   end
 end
 
-class UniqueWithCompositionTest < MiniTest::Spec
+class UniqueWithCompositionTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     include Composition
@@ -128,7 +128,7 @@ class UniqueWithCompositionTest < MiniTest::Spec
 end
 
 
-class UniqueValidatorWithScopeTest < MiniTest::Spec
+class UniqueValidatorWithScopeTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :album_id
@@ -158,7 +158,7 @@ class UniqueValidatorWithScopeTest < MiniTest::Spec
   end
 end
 
-class UniqueValidatorWithScopeAndCaseInsensitiveTest < MiniTest::Spec
+class UniqueValidatorWithScopeAndCaseInsensitiveTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :album_id
@@ -188,7 +188,7 @@ class UniqueValidatorWithScopeAndCaseInsensitiveTest < MiniTest::Spec
   end
 end
 
-class UniqueValidatorWithScopeArrayTest < MiniTest::Spec
+class UniqueValidatorWithScopeArrayTest < Minitest::Spec
   class SongForm < Reform::Form
     include ActiveRecord
     property :album_id
