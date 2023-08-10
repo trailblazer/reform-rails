@@ -1,6 +1,6 @@
 require "test_helper"
 
-class AMValidationWithFormatTest < MiniTest::Spec
+class AMValidationWithFormatTest < Minitest::Spec
   class SongForm < Reform::Form
     include Reform::Form::ActiveModel
 

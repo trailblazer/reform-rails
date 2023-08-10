@@ -1,7 +1,7 @@
 require 'test_helper'
 
 # Reform::ModelReflections will be the interface between the form object and form builders like simple_form.
-class ModelReflectionTest < MiniTest::Spec
+class ModelReflectionTest < Minitest::Spec
   class SongForm < Reform::Form
     include Reform::Form::ActiveRecord
     include Reform::Form::ActiveModel::ModelReflections

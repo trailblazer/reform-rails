@@ -19,7 +19,7 @@ require 'reform/active_record'
 # end
 # Artist.new(:name => "Racer X").save
 
-class ActiveRecordTest < MiniTest::Spec
+class ActiveRecordTest < Minitest::Spec
   class SongForm < Reform::Form
     feature Reform::Form::ActiveModel::Validations
 
@@ -111,7 +111,7 @@ class ActiveRecordTest < MiniTest::Spec
 end
 
 
-class PopulateWithActiveRecordTest < MiniTest::Spec
+class PopulateWithActiveRecordTest < Minitest::Spec
   class AlbumForm < Reform::Form
 
     property :title

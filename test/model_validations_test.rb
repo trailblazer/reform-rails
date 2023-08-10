@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ModelValidationsTest < MiniTest::Spec
+class ModelValidationsTest < Minitest::Spec
 
   class Album
     include ActiveModel::Validations

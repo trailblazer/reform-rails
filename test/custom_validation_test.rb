@@ -8,7 +8,7 @@ class UnexistantTitleValidator < ActiveModel::Validator
   end
 end
 
-class CustomValidationTest < MiniTest::Spec
+class CustomValidationTest < Minitest::Spec
 
   class Album
     include ActiveModel::Validations

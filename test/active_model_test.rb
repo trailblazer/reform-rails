@@ -15,7 +15,7 @@ module NormalRailsEngine
 end
 
 
-class NewActiveModelTest < MiniTest::Spec # TODO: move to test/rails/
+class NewActiveModelTest < Minitest::Spec # TODO: move to test/rails/
   class SongForm < Reform::Form
     include Reform::Form::ActiveModel
 
@@ -139,7 +139,7 @@ class NewActiveModelTest < MiniTest::Spec # TODO: move to test/rails/
 end
 
 
-class ActiveModelWithCompositionTest < MiniTest::Spec
+class ActiveModelWithCompositionTest < Minitest::Spec
    class HitForm < Reform::Form
     include Composition
     include Reform::Form::ActiveModel

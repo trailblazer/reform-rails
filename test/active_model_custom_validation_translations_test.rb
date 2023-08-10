@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ActiveModelCustomValidationTranslationsTest < MiniTest::Spec
+class ActiveModelCustomValidationTranslationsTest < Minitest::Spec
   module SongForm
     class WithBlock < Reform::Form
       model :song

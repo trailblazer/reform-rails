@@ -28,7 +28,7 @@ module MongoidTests
     belongs_to :musician
   end
 
-  class MongoidTest < MiniTest::Spec
+  class MongoidTest < Minitest::Spec
     class TuneForm < Reform::Form
       include Reform::Form::Mongoid
       model :tune
@@ -111,7 +111,7 @@ module MongoidTests
     end
   end
 
-  class PopulateWithMongoidTest < MiniTest::Spec
+  class PopulateWithMongoidTest < Minitest::Spec
     class DiscForm < Reform::Form
 
       property :title
