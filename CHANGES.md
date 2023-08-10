@@ -1,3 +1,7 @@
+# 0.2.6
+
+* Allow to override `#persisted?` and friends with modules.
+
 # 0.2.5
 
 * Fix: Delegating from form object causes ArgumentError with 0.2.4 (https://github.com/trailblazer/reform-rails/issues/99)
