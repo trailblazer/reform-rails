@@ -379,6 +379,8 @@ class ActiveModelValidationTest < MiniTest::Spec
  end
 end
 
+# Regression
+# Addresses a bug: https://github.com/trailblazer/reform-rails/issues/103
 class ActiveModelValidationWithIfTest < MiniTest::Spec
   Session = Struct.new(:id)
   # Album = Struct.new(:name, :songs, :artist)
@@ -389,7 +391,7 @@ class ActiveModelValidationWithIfTest < MiniTest::Spec
 
     property :id, virtual: true
 
-    validates :id, presence: true, if: -> { raise id.inspect }
+    # validates :id, presence: true, if: -> { raise id.inspect }
   end
 
   let (:form) { SessionForm.new(Session.new(2)) }
