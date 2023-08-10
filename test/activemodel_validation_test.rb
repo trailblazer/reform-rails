@@ -378,3 +378,24 @@ class ActiveModelValidationTest < MiniTest::Spec
    it { _(ValidateEachForm2.new(Album.new).validate(songs: "red")).must_equal true }
  end
 end
+
+class ActiveModelValidationWithIfTest < MiniTest::Spec
+  Session = Struct.new(:id)
+  # Album = Struct.new(:name, :songs, :artist)
+  # Artist = Struct.new(:name)
+
+  class SessionForm < Reform::Form
+    include Reform::Form::ActiveModel::Validations
+
+    property :id, virtual: true
+
+    validates :id, presence: true, if: -> { raise id.inspect }
+  end
+
+  let (:form) { SessionForm.new(Session.new(2)) }
+
+  # valid.
+  it do
+    assert_equal form.id, nil
+  end
+end
