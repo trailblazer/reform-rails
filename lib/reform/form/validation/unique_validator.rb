@@ -57,7 +57,7 @@ class Reform::Form::UniqueValidator < ActiveModel::EachValidator
       query = query.where(field => form.send(field))
     end
 
-    form.errors.add(attribute, :taken) if query.count > 0
+    form.errors.add(attribute, options[:message] || :taken) if query.count > 0
   end
 end
 
