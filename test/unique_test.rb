@@ -1,5 +1,6 @@
 require "test_helper"
 
+require "reform/form/orm"
 require "reform/form/validation/unique_validator.rb"
 require "reform/form/active_record"
 
@@ -225,5 +226,63 @@ class UniqueValidatorWithScopeArrayTest < Minitest::Spec
 
     form = SongForm.new(Song.new)
     _(form.validate(album_id: album1.id, artist_id: artist2.id, title: 'How Many Tears')).must_equal true
+  end
+end
+
+class UniqueValidatorWithConditions < Minitest::Spec
+  class SongForm < Reform::Form
+    include ActiveRecord
+    property :title
+    validates :title, unique: { conditions: -> { where(archived_at: nil) } }
+  end
+
+  it do
+    Song.delete_all
+
+    form = SongForm.new(Song.new)
+    _(form.validate(title: 'How Many Tears')).must_equal true
+    form.save
+
+    form = SongForm.new(Song.new)
+    _(form.validate(title: 'How Many Tears')).must_equal false
+    _(form.errors.messages).must_equal({:title=>["has already been taken"]})
+
+    song = Song.last
+    song.update!(archived_at: Time.now)
+
+    form = SongForm.new(Song.new)
+    _(form.validate(title: 'How Many Tears')).must_equal true
+    form.save
+  end
+end
+
+class UniqueValidatorWithConditionsWithRecord < Minitest::Spec
+  class SongForm < Reform::Form
+    include ActiveRecord
+    property :title
+    property :release_date
+    validates :title, unique: {
+      conditions: ->(form) {
+        published_at = form.release_date
+        where(release_date: published_at.beginning_of_month..published_at.end_of_month)
+      }
+    }
+  end
+
+  it do
+    Song.delete_all
+
+    today = Date.today
+    form = SongForm.new(Song.new)
+    _(form.validate(title: 'How Many Tears', release_date: today)).must_equal true
+    form.save
+
+    form = SongForm.new(Song.new)
+    _(form.validate(title: 'How Many Tears', release_date: today)).must_equal false
+    _(form.errors.messages).must_equal({:title=>["has already been taken"]})
+
+    form = SongForm.new(Song.new)
+    _(form.validate(title: 'How Many Tears', release_date: today.next_month)).must_equal true
+    form.save
   end
 end

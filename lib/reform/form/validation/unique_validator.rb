@@ -14,7 +14,7 @@
 # validates :title, unique: { case_sensitive: false }
 #
 # = Scope
-# A scope can be use to filter the records that need to be compare with the
+# A scope can be used to filter the records that need to be compare with the
 # current value to validate. A scope array can have one to many fields define.
 #
 # A scope can be define the following ways:
@@ -33,6 +33,20 @@
 # This use case is useful if album_id is set to a Song this way:
 # song = album.songs.new
 # album_id is automatically set and can't be change by the operation
+#
+# = Conditions
+# A condition can be passed to filter the records with partial indexes
+#
+# Conditions can be define the following ways:
+# validates :title, unique: { conditions: -> { where(archived_at: nil) } }
+# - This will check that the title is unique for non archived records
+# validates :title, unique: {
+#   conditions: ->(record) {
+#     published_at = record.published_at
+#     where(published_at: published_at.beginning_of_year..published_at.end_of_year)
+#   }
+# }
+#
 
 class Reform::Form::UniqueValidator < ActiveModel::EachValidator
   def validate_each(form, attribute, value)
@@ -55,6 +69,16 @@ class Reform::Form::UniqueValidator < ActiveModel::EachValidator
     Array(options[:scope]).each do |field|
       # add condition to only check unique value with the same scope
       query = query.where(field => form.send(field))
+    end
+
+    if options[:conditions]
+      conditions = options[:conditions]
+
+      query = if conditions.arity.zero?
+                query.instance_exec(&conditions)
+              else
+                query.instance_exec(form, &conditions)
+              end
     end
 
     form.errors.add(attribute, :taken) if query.count > 0
