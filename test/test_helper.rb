@@ -1,7 +1,8 @@
 ENV["RAILS_ENV"] = "test"
 
+require 'debug'
 require 'minitest/autorun'
-
+require 'logger'
 # Load the rails application
 require "active_model/railtie"
 
