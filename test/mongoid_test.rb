@@ -77,7 +77,11 @@ module MongoidTests
       Musician.create(:name => "Racer X")
 
       _(form.validate("musician" => {"name" => "Racer X"}, "title" => "Ghost Inside My Skin")).must_equal false
-      _(form.errors.messages.sort).must_equal({:"musician.name" => ["has already been taken"], :created_at => ["can't be blank"]}.sort)
+      if Gem::Version.new(ActiveModel::VERSION::STRING) <= Gem::Version.new('6.0.0')
+        _(form.errors.messages.sort).must_equal({:"musician.name" => ["is already taken"], :created_at => ["can't be blank"]}.sort)
+      else
+        _(form.errors.messages.sort).must_equal({:"musician.name" => ["has already been taken"], :created_at => ["can't be blank"]}.sort)
+      end
     end
 
     it "works with Composition" do
