@@ -11,7 +11,7 @@ module MongoidTests
   class Disc
     include Mongoid::Document
     field :title, type: String
-    has_many :tunes
+    has_many :tunes, inverse_of: :disc
     has_and_belongs_to_many :musicians
   end
 
@@ -24,7 +24,7 @@ module MongoidTests
     include Mongoid::Document
     include Mongoid::Timestamps
     field :title, type: String
-    belongs_to :disc
+    belongs_to :disc, inverse_of: :tunes
     belongs_to :musician
   end
 
@@ -77,7 +77,7 @@ module MongoidTests
       Musician.create(:name => "Racer X")
 
       _(form.validate("musician" => {"name" => "Racer X"}, "title" => "Ghost Inside My Skin")).must_equal false
-      _(form.errors.messages).must_equal({:"musician.name" => ["is already taken"], :created_at => ["can't be blank"]})
+      _(form.errors.messages.sort).must_equal({:"musician.name" => ["has already been taken"], :created_at => ["can't be blank"]}.sort)
     end
 
     it "works with Composition" do
