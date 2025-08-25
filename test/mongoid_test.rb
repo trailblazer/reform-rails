@@ -133,7 +133,7 @@ module MongoidTests
 
       # form populated.
       _(form.tunes.size).must_equal 1
-      form.tunes[0].model.must_be_kind_of Tune
+      _(form.tunes[0].model).must_be_kind_of Tune
 
       # model NOT populated.
       _(disc.tunes).must_equal []
@@ -143,7 +143,7 @@ module MongoidTests
 
       # form populated.
       _(form.tunes.size).must_equal 1
-      form.tunes[0].model.must_be_kind_of Tune
+      _(form.tunes[0].model).must_be_kind_of Tune
 
       # model also populated.
       tune = disc.tunes[0]
@@ -225,7 +225,7 @@ module MongoidTests
 
           # form populated.
           _(form.tunes.size).must_equal 1
-          form.tunes[0].model.must_be_kind_of Tune
+          _(form.tunes[0].model).must_be_kind_of Tune
           _(form.tunes[0].title).must_equal 'Tango'
 
           # model NOT populated.

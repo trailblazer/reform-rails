@@ -396,6 +396,6 @@ class ActiveModelValidationWithIfTest < Minitest::Spec
 
   # valid.
   it do
-    assert_equal form.id, nil
+    assert_nil form.id
   end
 end
