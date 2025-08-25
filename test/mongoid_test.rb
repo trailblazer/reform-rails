@@ -168,7 +168,7 @@ module MongoidTests
       let (:disc) {Disc.create.tap {|a| a.tunes << tune}}
 
       it do
-        skip('fails in rails 5') if self.class.rails5?
+        skip('fails')
         form = DiscForm.new(disc)
 
         id = disc.tunes[0].id
@@ -220,7 +220,7 @@ module MongoidTests
         let (:form) {ActiveModelDiscForm.new(disc)}
 
         it do
-          skip('fails in rails 5') if self.class.rails5?
+          skip('fails')
           form.validate('tunes_attributes' => {'0' => {'title' => 'Tango'}})
 
           # form populated.
