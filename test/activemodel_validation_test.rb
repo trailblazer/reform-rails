@@ -338,12 +338,10 @@ class ActiveModelValidationTest < Minitest::Spec
     end
 
     it do
-      skip('fails in rails 5') if self.class.rails5?
       _(AcceptanceForm.new(nil).validate(accept: "0")).must_equal false
     end
 
     it do
-      skip('fails in rails 5') if self.class.rails5?
       _(AcceptanceForm.new(nil).validate(accept: "1")).must_equal true
     end
   end
@@ -398,6 +396,6 @@ class ActiveModelValidationWithIfTest < Minitest::Spec
 
   # valid.
   it do
-    assert_equal form.id, nil
+    assert_nil form.id
   end
 end

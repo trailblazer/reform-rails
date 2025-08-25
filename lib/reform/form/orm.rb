@@ -20,7 +20,11 @@ module Reform::Form::ORM
       @klass = record.class # this is usually done in the super-sucky #setup method.
       super(record).tap do |res|
         if record.errors.present?
-          error = self.class.name.include?("Mongoid") ? record.errors.first.last : :taken
+          error = if Gem::Version.new(ActiveModel::VERSION::STRING) >= Gem::Version.new('6.1.0')
+                    self.class.name.include?("Mongoid") ? record.errors.first.type : :taken
+                  else
+                    self.class.name.include?("Mongoid") ? record.errors.first.last : :taken
+                  end
           form.errors.add(property, error)
         end
       end
