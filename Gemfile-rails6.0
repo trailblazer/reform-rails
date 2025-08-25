@@ -5,3 +5,5 @@ ruby '~> 2.6'
 
 gem "activerecord", "~> 6.0.0"
 gem "railties", "~> 6.0.0"
+gem "sqlite3"
+gem "mongoid"
