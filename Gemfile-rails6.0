@@ -3,7 +3,5 @@ gemspec
 
 ruby '~> 2.6'
 
-gem "mongoid"
 gem "activerecord", "~> 6.0.0"
 gem "railties", "~> 6.0.0"
-gem "sqlite3"

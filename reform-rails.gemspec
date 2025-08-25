@@ -20,8 +20,11 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "sqlite3"
+  spec.add_dependency "mongoid"
   spec.add_dependency "reform", ">= 2.3.1", "< 3.0.0"
   spec.add_dependency "activemodel", ">= 5.0"
+  spec.add_development_dependency "minitest"
   spec.add_development_dependency "minitest-line"
   spec.add_development_dependency "debug"
 end
