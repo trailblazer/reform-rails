@@ -17,6 +17,13 @@ module Reform::Form::ORM
       record = form.model_for_property(property)
       record.send("#{property}=", form.send(property))
 
+      scopes = *options[:scope]
+      scopes.each do |scope|
+        record.send("#{scope}=", form.send(scope)) if form.respond_to?(scope)
+      end
+
+
+
       @klass = record.class # this is usually done in the super-sucky #setup method.
       super(record).tap do |res|
         if record.errors.present?
