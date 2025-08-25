@@ -11,10 +11,10 @@ module Dummy
   class Application < Rails::Application
     config.eager_load = false
     config.active_support.deprecation = :stderr
-    
+
     if config.respond_to?(:active_model)
       config.active_model.i18n_customize_full_message = true
-    end      
+    end
   end
 end
 

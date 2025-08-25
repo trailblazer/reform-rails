@@ -6,6 +6,7 @@ ActiveRecord::Schema.define(version: 1) do
     t.integer  "album_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "archived_at"
   end
 
   create_table "artists" do |t|

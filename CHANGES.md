@@ -1,3 +1,7 @@
+# x.x.x
+
+* add `conditions` option to Reform Uniqueness validation.
+
 # 0.2.6
 
 * Allow to override `#persisted?` and friends with modules.
