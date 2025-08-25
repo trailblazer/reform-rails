@@ -1,6 +1,7 @@
-# x.x.x
+# 0.3.0
 
-* add `conditions` option to Reform Uniqueness validation.
+* Add `conditions` option to Reform Uniqueness validation.
+* ActiveModel acceptance validation works
 
 # 0.2.6
 
