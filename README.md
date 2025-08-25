@@ -28,14 +28,15 @@ Reform-rails needs Reform >= 2.3.
 
 ## Contributing
 
-By default your tests will run against rails 6.0.1.
-Please ensure that you test your changes against all supported ruby and rails versions (see .travis.yml)
+Please ensure that you test your changes against all supported ruby and rails versions
 
 You can run tests for a specific version of rails by running the following:
 
-`export RAILS_VERSION=5.0.0; bundle update; bundle exec rake test`
+```shell
+BUNDLE_GEMFILE=Gemfile-rails7.0 bundle install
+BUNDLE_GEMFILE=Gemfile-rails7.0 bundle exec rake test
+```
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
