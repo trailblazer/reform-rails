@@ -57,6 +57,17 @@ module Reform
           include Reform::Form::Dry
         end
       end
+
+      initializer "reform.patch_acceptance_validator" do
+        require "reform/form/active_model/acceptance_validator_patch"
+
+        if defined?(::ActiveModel::Validations::AcceptanceValidator)
+          Reform::Form::ActiveModel::AcceptanceValidatorPatch.apply!
+        else
+          ActiveSupport.on_load(:active_record) { Reform::Form::ActiveModel::AcceptanceValidatorPatch.apply! }
+          Rails.application.config.to_prepare { Reform::Form::ActiveModel::AcceptanceValidatorPatch.apply! }
+        end
+      end
     end # Railtie
   end
 end
