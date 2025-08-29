@@ -1,3 +1,10 @@
+# 0.3.1
+
+* Fix: ActiveModel acceptance validator wasn't properly monkey patched
+  Now this will work in environments where active model and active record is
+  not loaded by default. In addition, it will work with all the Rails versions
+  we support
+
 # 0.3.0
 
 * Add `conditions` option to Reform Uniqueness validation.
