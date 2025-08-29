@@ -62,6 +62,7 @@ module Reform
         require "reform/form/active_model/acceptance_validator_patch"
 
         if defined?(::ActiveModel::Validations::AcceptanceValidator)
+          # Remove this branch after we support Rails >= 7.1
           Reform::Form::ActiveModel::AcceptanceValidatorPatch.apply!
         else
           ActiveSupport.on_load(:active_record) { Reform::Form::ActiveModel::AcceptanceValidatorPatch.apply! }
