@@ -28,6 +28,8 @@ class ActiveRecordTest < Minitest::Spec
 
     property :title
     property :created_at
+    property :album_id
+    property :artist_id
 
     validates_uniqueness_of :title, scope: [:album_id, :artist_id]
     validates :created_at, :presence => true # have another property to test if we mix up.
@@ -51,9 +53,8 @@ class ActiveRecordTest < Minitest::Spec
   end
 
   it "has errors on title when title is taken for the same artist and album" do
-    skip "replace ActiveModel::Validations with our own, working and reusable gem."
     Song.create(title: "Windowpane", artist_id: artist.id, album_id: album.id)
-    form.validate("title" => "Windowpane", "artist_id" => artist.id, "album" => album)
+    form.validate("title" => "Windowpane", "artist_id" => artist.id, "album_id" => album.id)
     refute_empty form.errors[:title]
   end
 
