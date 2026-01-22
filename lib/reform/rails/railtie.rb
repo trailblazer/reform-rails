@@ -24,6 +24,7 @@ module Reform
         require "reform/form/active_model"
 
         require "reform/form/active_model/model_validations"
+        require "reform/form/not_persisted"
         require "reform/form/active_model/validations"
 
         require "reform/active_record" if defined?(::ActiveRecord)
