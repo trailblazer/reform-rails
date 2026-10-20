@@ -234,6 +234,10 @@ module Reform
           self.class.model_name = form.model_name
         end
 
+        def read_attribute(attr_name)
+          respond_to?(attr_name) ? send(attr_name) : nil
+        end
+
         def method_missing(m, *args, &block)
           __getobj__.send(m, *args, &block) # send all methods to the form, even privates.
         end
